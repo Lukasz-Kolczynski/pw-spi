@@ -20,17 +20,32 @@
 
 
 
-import random
-#Generowanie losowej liczby całkowitej z zakresu 1-100:
-print(random.randint(1,100))
+# import random
+# #Generowanie losowej liczby całkowitej z zakresu 1-100:
+# print(random.randint(1,100))
 
-#wybor losowego elementu z listy:
-fruits = ["apple", "banana", "orange"]
-print(random.choice(fruits))
+# #wybor losowego elementu z listy:
+# fruits = ["apple", "banana", "orange"]
+# print(random.choice(fruits))
 
 
 
-#Mieszanie listy:
-numbers= [1,2,3,4,5]
-random.shuffle(numbers)
-print(numbers)
+# #Mieszanie listy:
+# numbers= [1,2,3,4,5]
+# random.shuffle(numbers)
+# print(numbers)
+
+
+
+#Zwrócenie bieżącego czasu w sekundach
+import time
+print(time.time())
+
+#Zwrócenie bieżącej daty i godziny:
+import datetime
+now= datetime.datetime.now()
+print(now)
+
+
+
+#
