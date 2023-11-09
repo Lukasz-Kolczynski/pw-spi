@@ -113,25 +113,26 @@
 
 
 
-nip= 1234567890
+# nip= 1234567890
 
-def validate_nip(nip:str):
-    weights= [6,5,7,2,3,4,5,6,7]
-    suma= 0
-#sprawdzamy czy mamy 10 znakow
-#czy wszystkie sa cyframi
-    if len(nip) !=10:
-        False
-    if nip.isdigit():
-        False
-    for i in range(9):
-        suma+= int(nip[i]) * weights[i]
-    if suma%11== int(nip[9]):
-        False
-    return True
+# def validate_nip(nip:str):
+#     weights= [6,5,7,2,3,4,5,6,7]
+#     suma= 0
+# #sprawdzamy czy mamy 10 znakow
+# #czy wszystkie sa cyframi
+#     if len(nip) !=10:
+#         False
+#     if nip.isdigit():
+#         False
+#     for i in range(9):
+#         suma+= int(nip[i]) * weights[i]
+#     if suma%11== int(nip[9]):
+#         False
+#     return True
 
 
-if validate_nip('6543256986'):
-    print("Nip jest OK")
-else:
-    print("Jestes oszust es")
+# if validate_nip('6543256986'):
+#     print("Nip jest OK")
+# else:
+#     print("Jestes oszust es")
+#dsds
