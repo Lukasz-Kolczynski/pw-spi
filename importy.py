@@ -59,5 +59,6 @@ if os.path.exists(file_path):
 
 print(os.path.isfile(file_path))
 print (os.listdir('linux'))
-os.rename (file_path, file_path+"nowy_plik.txt")
+os.rename (file_path, file_path+ "nowy_plik.txt")
+
 
