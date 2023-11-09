@@ -14,5 +14,23 @@
 
 
 
-import math
-print (math.sqrt(10))
+# # import math
+# from math import sqrt
+# print (sqrt(10))
+
+
+
+import random
+#Generowanie losowej liczby całkowitej z zakresu 1-100:
+print(random.randint(1,100))
+
+#wybor losowego elementu z listy:
+fruits = ["apple", "banana", "orange"]
+print(random.choice(fruits))
+
+
+
+#Mieszanie listy:
+numbers= [1,2,3,4,5]
+random.shuffle(numbers)
+print(numbers)
