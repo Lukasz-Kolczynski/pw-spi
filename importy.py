@@ -37,15 +37,27 @@
 
 
 
-#Zwrócenie bieżącego czasu w sekundach
-import time
-print(time.time())
+# #Zwrócenie bieżącego czasu w sekundach
+# import time
+# print(time.time())
 
-#Zwrócenie bieżącej daty i godziny:
-import datetime
-now= datetime.datetime.now()
-print(now)
+# #Zwrócenie bieżącej daty i godziny:
+# import datetime
+# now= datetime.datetime.now()
+# print(now)
 
 
 
-#
+#Napisz kod, który wypisze listę wszystkich plików w bieżącym katalogu.
+import os
+for file in os.listdir():
+    print(file)
+
+file_path= "abc.py"
+if os.path.exists(file_path):
+    print('file already exisits')
+
+print(os.path.isfile(file_path))
+print (os.listdir('linux'))
+os.rename (file_path, file_path+"nowy_plik.txt")
+
