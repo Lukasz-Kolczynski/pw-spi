@@ -41,24 +41,39 @@
 # import time
 # print(time.time())
 
-# #Zwrócenie bieżącej daty i godziny:
-# import datetime
-# now= datetime.datetime.now()
-# print(now)
+#Zwrócenie bieżącej daty i godziny:
+import datetime
+now= datetime.datetime.now()
+print(now)
+
+#Napisz program który sprawdza czy dany format daty jest prawidłowy
+'dd-mm-yyyy'
+todays_date= datetime .date.today()
+print(todays_date)
+
+        # %Y - year [0001,...,2018,2019,...,9999]
+        # %m - month[01,02,...,11,12]
+        # %d - day [01,02,...,30,31]
+        # %H - hour [00,01,...,22,23]
+        # %M - minute [00,01,...,58,59]
+
+#1 stycznia 1970 - UTC
+print (datetime.date.fromtimestamp(10000000000).year)
 
 
 
-#Napisz kod, który wypisze listę wszystkich plików w bieżącym katalogu.
-import os
-for file in os.listdir():
-    print(file)
 
-file_path= "abc.py"
-if os.path.exists(file_path):
-    print('file already exisits')
+# #Napisz kod, który wypisze listę wszystkich plików w bieżącym katalogu.
+# import os
+# for file in os.listdir():
+#     print(file)
 
-print(os.path.isfile(file_path))
-print (os.listdir('linux'))
-os.rename (file_path, file_path+ "nowy_plik.txt")
+# file_path= "abc.py"
+# if os.path.exists(file_path):
+#     print('file already exisits')
+
+# print(os.path.isfile(file_path))
+# print (os.listdir('linux'))
+# os.rename (file_path, file_path+ "nowy_plik.txt")
 
 
