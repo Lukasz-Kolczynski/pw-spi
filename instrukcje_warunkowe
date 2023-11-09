@@ -1,0 +1,5 @@
+wiek = input("Wprowadź wiek: ")
+if wiek >= "18":
+    print ("Jesteś pełnoletni") 
+else:
+    print("Jesteś niepełnoletni")
