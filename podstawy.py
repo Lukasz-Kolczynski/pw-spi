@@ -75,10 +75,10 @@
 
 
 
-liczba_pierwsza=input("Wprowadź liczbe pierwszą: ")
-liczba_druga=input("Wprowadź liczbe drugą: ")
-float(liczba_pierwsza)
-float(liczba_druga)
-opcja=input("Co mam zrobic z tymi liczbami? [Wybierz i wypisz opcje (dodaj, odejmij, pomnóż, podziel)]: ")
-if opcja=="dodaj": 
-    wynik_dodawania=liczba_pierwsza + liczba_druga
+# liczba_pierwsza=input("Wprowadź liczbe pierwszą: ")
+# liczba_druga=input("Wprowadź liczbe drugą: ")
+# float(liczba_pierwsza)
+# float(liczba_druga)
+# opcja=input("Co mam zrobic z tymi liczbami? [Wybierz i wypisz opcje (dodaj, odejmij, pomnóż, podziel)]: ")
+# if opcja=="dodaj": 
+#     wynik_dodawania=liczba_pierwsza + liczba_druga
