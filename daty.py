@@ -38,5 +38,15 @@ now = datetime.now()
 # else:
 #     print(f'{rok} nie jest rokiem przestepnym')
 
-# wyswietl numer biezacego roku tygodnia
-print(now.strftime("%U"))
+# # wyswietl numer biezacego roku tygodnia
+# print(now.strftime("%U"))
+
+# #Zmien format daty z "2023-11-15 00:00:00" na format RFC 2822
+# rfc_date = datetime.strptime("2023-11-15 00:00:00 +04:00", "%Y-%m-%d %H:%M:%S %z").strftime("%a, %d %b %Y %H:%M:%S %z")
+# #Wed, 01 Jun 2016 14:31:46 -0700
+# print (rfc_date)
+
+#Znajdz dzien tygodnia dla 4 lipca biezacego roku
+data = datetime(datetime.now().year,7,4)
+dzien_tygodnia = data.strftime('%A')
+print(dzien_tygodnia)
