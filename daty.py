@@ -1,7 +1,7 @@
                                         # https://strftime.org/
 # Zwrócenie bieżącej daty i godziny:
 from datetime import datetime
-now = datetime.now()
+# now = datetime.now()
 # print(now)
 # print(now.year)
 # print(now.strftime("%Y"))
@@ -46,7 +46,26 @@ now = datetime.now()
 # #Wed, 01 Jun 2016 14:31:46 -0700
 # print (rfc_date)
 
-#Znajdz dzien tygodnia dla 4 lipca biezacego roku
-data = datetime(datetime.now().year,7,4)
-dzien_tygodnia = data.strftime('%A')
-print(dzien_tygodnia)
+# #Znajdz dzien tygodnia dla 4 lipca biezacego roku
+# data = datetime(datetime.now().year,7,4)
+# dzien_tygodnia = data.strftime('%A')
+# print(dzien_tygodnia)
+
+# # Oblicz czas, ktory uplynal od nowego roku do teraz w sekundach
+# poczatek_roku=datetime(now.year,1,1)
+# czas_uplyniety= (now - poczatek_roku).total_seconds()
+# print(czas_uplyniety)
+
+# # Porównaj, czy data "2023-11-15" jest wcześniejsza niż dzisiaj
+# data_do_porownania= datetime(2023, 11, 15)
+# now=datetime.now()
+# if data_do_porownania < now:
+#     print("data do porownania jest wczesniejsza niz dzis")
+# else:
+#     print('data do porownania nie jest wczesniejsza niz dzis')
+
+#Formatuj date "15/11/2023 14:30" do formatu "15 November 2023, godzina 14:30"
+data_napis= "15/11/2023 14:30"
+data_object= datetime.strptime(data_napis, "%d/%m/%Y %H:%M")
+data_docelowa = data_object.strftime("%d %B %Y, godzina %H:%M")
+print(data_docelowa)
