@@ -1,3 +1,5 @@
+# https://github.com/fulmanp/Very-Simple-Computer--VSC-/blob/main/src/1_0/vsc.py
+
 import random
 import re
 import sys
