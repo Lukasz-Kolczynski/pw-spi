@@ -57,6 +57,12 @@ txt= "Dopasowuje nie poznieycje, która nie jest grannieicą nie słowa."
 # x=re.search(r"^nasz",kot, re.IGNORECASE)
 # print(x)
 
-text= "Mój numer to 1230-456-7890."
-x=re.search(r"\d{3}+-\d{3}+-\d{3}+",text)
-print(x)
+# text= "Mój numer to 1230-456-7890."
+# # x=re.search(r"\d{3}+-\d{3}+-\d{3}+",text)
+# # print(x)
+# x=re.search(r"\b[0-9]{3}+-\d{3}+-\d{3}+",text)
+# print(x)
+
+text= "Odwiedź https://www.example.com i http://www.antoherdomain.org."
+domain_names=re.findall(r'https?:/www\.(w+)', text)
+print(domain_names)
