@@ -30,3 +30,25 @@ git add [file1] [file2]
 git add "*.py"
 
 git commit -m "[commit message]"
+
+git commit -a -m "[commit message]" / git commit -am "[commit message]"
+
+git commit --amend -m "[change last commit message]"
+
+git commit --amend --no-edit
+
+git commit  --allow-empty -m "Pusty commit"
+
+git commit -m "Tytuł commita" -m "dalszy opis zmian"
+
+git status
+
+git status -s
+
+git status -u
+
+git status -b
+
+git status ignore
+
+git status --show-stash
