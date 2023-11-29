@@ -146,3 +146,29 @@ git branch --edit-description [branch-name]
 
 git branch --list [pattern]
 
+git branch --list 'feature*'
+
+git branch --delete --remotes [remote/branch]
+
+git branch --color
+
+git branch --force [branch-name]
+
+git checkout [branch-name]
+
+git checkout -b [branch-name]
+
+git checkout [commit-name]
+
+git checkout -- [file-name]
+
+git checkout [branch-name] -- [file-name]
+
+git checkout [branch-name]
+
+git checkout -
+
+git checkout --orphan new-start
+
+git checkout [tag-name]
+
