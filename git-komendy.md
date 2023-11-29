@@ -97,3 +97,52 @@ git config --global user.name "[name]"
 git config --global user.email "[email address]"
 
 git config --global core.editor "[editor]"
+
+git config [key]
+
+git config --global alias.[alias-name] '[command]'
+git config --global alias.st 'status'
+
+/n/r
+git config --global core.autocrlf [true|false|input]
+
+git config --global merge.tool [tool]
+
+git config --global diff.tool [tool]
+
+git config --global core.filemode [true|false]
+
+git branch
+
+git branch [branch-name]
+
+git branch -d [branch-name]
+
+git branch -D [branch-name]
+
+git branch -m [old-name] [new-name]
+
+git branch -v
+
+git branch --show-current
+
+git branch --no-merged [branch]
+
+git branch --contains [commit]
+
+git branch -vv
+
+git branch --sort=[key]
+
+git branch --sort=committerdate
+
+git branch [branch-name] [start-point]
+
+git branch --copy feature-old feature-new
+
+git branch --move [old-branch] [new-branch]
+
+git branch --edit-description [branch-name]
+
+git branch --list [pattern]
+
