@@ -91,3 +91,7 @@ git remote set-url [shortname] [new-url]
 git remote set-head [shortname] -a
 
 git pull. git push
+
+
+git config --global user.name "[name]"
+git config --global user.email "[email address]"
