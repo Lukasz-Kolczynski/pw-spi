@@ -95,3 +95,5 @@ git pull. git push
 
 git config --global user.name "[name]"
 git config --global user.email "[email address]"
+
+git config --global core.editor "[editor]"
