@@ -172,3 +172,28 @@ git checkout --orphan new-start
 
 git checkout [tag-name]
 
+git tag [tag-name]
+
+git tag -a [tag-name] -m "[message]"
+
+git tag -d [tag-name]
+
+git show [tag-name]
+
+git push [remote] [tag-name]
+
+git push [remote] --tags
+
+git tag -1 "[patterns]"
+
+git tag -1 "v1.*"
+
+git checkout [tag-name]
+
+git tag -a [tag-name] [commit-name] -m "[message]"
+
+git reset [commit-name]
+
+git reset --hard [commit-name]
+
+git reset --soft[commit-name]
