@@ -52,3 +52,11 @@ git status -b
 git status ignore
 
 git status --show-stash
+
+git pull
+
+git pull origin
+
+git pull oring dev
+
+git remote
