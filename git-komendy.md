@@ -63,4 +63,3 @@ git pull oring dev
 
 git remote
 
-dd
