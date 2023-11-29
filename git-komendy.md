@@ -62,3 +62,5 @@ git pull origin
 git pull oring dev
 
 git remote
+
+dd
