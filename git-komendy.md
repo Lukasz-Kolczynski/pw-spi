@@ -39,7 +39,9 @@ git commit --amend --no-edit
 
 git commit  --allow-empty -m "Pusty commit"
 
-git commit -m "Tytuł commita" -m "dalszy opis zmian"
+git commit -m "Tytuł commita" -m "dalszy opis zmian" / git commit -m "Tytuł commita 
+dalszy opis zmian"
+
 
 git status
 
