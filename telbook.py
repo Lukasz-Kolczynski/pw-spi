@@ -70,3 +70,9 @@ display_phonebook()
 remove_entry("123456789")
 add_entry("Krzysztof", "123456789")
 
+while True:
+    print("0. Exit")
+    choice = input("Enter your choice: ")
+    if choice == "0":
+        print("Exit")
+        break
