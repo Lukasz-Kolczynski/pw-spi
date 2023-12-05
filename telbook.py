@@ -1,78 +1,69 @@
-
-FILENAME= 'book.txt'
+FILENAME = 'book.txt'
 
 def read_phonebook():
+    phonebook = {}
     try:
-        with open(FILENAME,'r') as file:
-            return [line.strip()for line in file.readlines()]
+        with open(FILENAME, 'r') as file:
+            for line in file:
+                name, phone_number = line.strip().split('; ')
+                phonebook[phone_number] = name
     except FileNotFoundError:
-        return []
-#Czyta dane z pliku i zwraca je w postaci listy.
+        pass
+    return phonebook
 
 def save_phonebook(phonebook):
-    with open(FILENAME,'w') as file:
-        #for entry in phonebook
-            file.write(f"{phonebook}\n")
-    print("Save file.")
-
-#zapisuje dane ksiazki telefonicznej do pliku
+    with open(FILENAME, 'w') as file:
+        for phone_number, name in phonebook.items():
+            file.write(f"{name}; {phone_number}\n")
+    print("Phonebook saved.")
 
 def display_phonebook():
-    for list in read_phonebook():
-        return list
+    phonebook = read_phonebook()
+    for phone_number, name in phonebook.items():
+        print(f"{name}: {phone_number}")
 
-#Wyświetla aktualną zawartość książki telefonicznej
+def validate_number(phone_number):
+    return len(phone_number) == 9 and phone_number.isdigit()
 
-def validate_number(phone_number:str):
-    return len(phone_number)==9 and phone_number.isdigit()
-
-def add_entry(name:str, phone_number:str):
-    if not phone_number.isdigit() or len(phone_number) !=9:
+def add_entry(name, phone_number):
+    if not validate_number(phone_number):
         print("Invalid phone number.")
         return
-add_new= f"{name}; {phone_number}"
-save_phonebook(add_new)
-print("Added phone number")
-#Dodajemy nowy wpis do książki telefonicznej z podana nazwa i numerem telefonu
-
-
-#Sprawdza format numeru oraz czy numer juz istnieje
+    phonebook = read_phonebook()
+    if phone_number in phonebook:
+        print("Phone number already exists.")
+        return
+    phonebook[phone_number] = name
+    save_phonebook(phonebook)
+    print("Phone number added.")
 
 def remove_entry(phone_number):
-    nowa_lista = []
-
-    for entry in read_phonebook():
-        if phone_number not in entry:
-            nowa_lista.append(entry)
-    save_phonebook(nowa_lista)
-
-    save_phonebook( [entry for entry in read_phonebook() if phone_number not in entry])
-
-#Usuwa wpis na podstawie numeru telefonu
+    phonebook = read_phonebook()
+    if phone_number in phonebook:
+        del phonebook[phone_number]
+        save_phonebook(phonebook)
+        print("Phone number removed.")
+    else:
+        print("Phone number not found.")
 
 def modify_entry(old_phone_number, new_name, new_phone_number):
-    if not validate_number(new_phone_number):
-        print("Invalid phone number.")
+    phonebook = read_phonebook()
+    if old_phone_number not in phonebook:
+        print("Old phone number not found.")
         return False
-    lista = read_phonebook()
-        for key,row in enumerate(lista):
-            if old_phone_number in row:
-                lista[key] = f"{new_name}; {new_phone_number}"
-                save_phonebook(lista)
-                print("Save")
-                return True
-    return
+    if not validate_number(new_phone_number):
+        print("Invalid new phone number.")
+        return False
+    del phonebook[old_phone_number]
+    phonebook[new_phone_number] = new_name
+    save_phonebook(phonebook)
+    print("Phonebook entry modified.")
+    return True
 
-#Modyfikujemy istniejacy wpis, pozwalajac na zmiane nazwy i numeru telefonu
-
+# Testowanie funkcji
 read_phonebook()
-display_phonebook()
-remove_entry("123456789")
 add_entry("Krzysztof", "123456789")
-
-while True:
-    print("0. Exit")
-    choice = input("Enter your choice: ")
-    if choice == "0":
-        print("Exit")
-        break
+display_phonebook()
+modify_entry("123456789", "Ania", "000000000")
+remove_entry("123456789")
+display_phonebook()
