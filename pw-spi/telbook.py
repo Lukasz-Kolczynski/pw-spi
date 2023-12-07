@@ -64,6 +64,6 @@ def modify_entry(old_phone_number, new_name, new_phone_number):
 read_phonebook()
 add_entry("Krzysztof", "123456789")
 display_phonebook()
-modify_entry("123456789", "Ania", "000000000")
-remove_entry("123456789")
+# modify_entry("123456789", "Ania", "000000000")
+# remove_entry("123456789")
 display_phonebook()
