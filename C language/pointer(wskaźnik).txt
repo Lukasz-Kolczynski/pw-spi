@@ -113,7 +113,72 @@ return 0;
 }
 
 
+struktura posiada liste studentow,
+mozna studentow dodawac, usuwac i edytowac ich oceny,
 
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
+#define MAXSTUDENTS 100
+#define MAXNAMELENGTH 50
 
+typedef struct {
+char name[MAXNAMELENGTH];
+int grade;
+} Student;
+
+typedef struct {
+Student students[MAXSTUDENTS];
+int count;
+} StudentList;
+
+void addStudent(StudentList list, char name, int grade) {
+if (list->count < MAX_STUDENTS) {
+strcpy(list->students[list->count].name, name);
+list->students[list->count].grade = grade;
+list->count++;
+printf("Student %s added with grade %d\n", name, grade);
+} else {
+printf("Cannot add more students, list is full\n");
+}
+}
+
+void removeStudent(StudentList list, char name) {
+for (int i = 0; i < list->count; i++) {
+if (strcmp(list->students[i].name, name) == 0) {
+for (int j = i; j < list->count - 1; j++) {
+list->students[j] = list->students[j + 1];
+}
+list->count--;
+printf("Student %s removed\n", name);
+return;
+}
+}
+printf("Student %s not found\n", name);
+}
+
+void editGrade(StudentList list, char name, int newGrade) {
+for (int i = 0; i < list->count; i++) {
+if (strcmp(list->students[i].name, name) == 0) {
+list->students[i].grade = newGrade;
+printf("Grade for student %s edited to %d\n", name, newGrade);
+return;
+}
+}
+printf("Student %s not found\n", name);
+}
+
+int main() {
+StudentList list = { .count = 0 };
+
+addStudent(&list, "Alice", 85);
+addStudent(&list, "Bob", 90);
+
+editGrade(&list, "Alice", 88);
+
+removeStudent(&list, "Bob");
+
+return 0;
+}
