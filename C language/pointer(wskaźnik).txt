@@ -113,8 +113,13 @@ return 0;
 }
 
 
-struktura posiada liste studentow,
-mozna studentow dodawac, usuwac i edytowac ich oceny,
+struktura student imie nazwisko ocena
+wpisanie studenta s1 
+dodanie go do listy studentow z ich ocenami itp,
+zapisanie tej listy z nowymi studentami, spytanie o kolejnego studenta 
+(Y/N jesli Y to dodanie kolejnego studenta do tabeli z poprzednimi studentami
+N spytanie o edycje biezacego studenta (jego ocen itp) Y/N jesli Y edycja danych jesli N zakoncz)
+spytanie o edycje studenta jego ocen 
 
 
 #include <stdio.h>
