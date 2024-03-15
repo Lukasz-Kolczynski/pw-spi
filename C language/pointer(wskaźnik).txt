@@ -1,0 +1,58 @@
+/*#include <stdio.h>
+
+void swap(int v, int w){
+    int tmp;
+    tmp= v;
+    v=w;
+    w=tmp;
+}
+
+void swapNew(int *v, int *w){
+    int tmp;
+    tmp= *v;
+    *v=*w;
+    *w=tmp;
+}
+
+
+int main(void)
+{
+    int x = 2;
+    int y = 5;
+    
+    int *pointer;
+    pointer= &x;
+    printf("%d %d %d\n", x, y, *pointer);
+    
+    pointer = &y;
+    
+    printf("%d %d %d\n", x, y, *pointer);
+        
+    *pointer = 123;
+    
+    printf("%d %d %d\n", x, y, *pointer);
+        
+    swap (x,y);
+    
+    printf("%d %d %d\n", x, y, *pointer);
+    
+    swapNew(&x,&y);
+    
+    printf("%d %d %d\n", x, y, *pointer);
+    
+    
+    
+    return 0;
+}
+*/ 
+
+
+#include <stdio.h>
+
+
+
+
+
+
+
+
