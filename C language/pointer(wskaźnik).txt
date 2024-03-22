@@ -231,6 +231,8 @@ void printMessage(struct Info info){
 
 
 struct Info addElement(struct DynamicTable *table, int element){
+        int *newTable;
+        int i;
         struct Info info = {SUCCESS};
 
         //printf("%d\n", (*table).size);
@@ -244,6 +246,21 @@ struct Info addElement(struct DynamicTable *table, int element){
                 table -> size = 1;
                 table -> idx = 0;
                 (table -> elements)[table ->idx] = element;
+        } else {
+        if (table -> idx<(table ->size)-1 ) {
+                table -> idx += 1;
+        (table -> elements)[table -> idx] = element;
+        }else {
+        newTable= malloc(sizeof(int)*(table->size)*2);
+        for(i = 0; i<table->size; i++){
+                newTable[i] = table -> elements[i];
+
+        }
+        table->size *=2;
+        table ->idx += 1;
+        (table-> elements)[table->idx] = element;
+        }
+
         }
         return info;
 }
@@ -255,10 +272,20 @@ struct Info addElement(struct DynamicTable *table, int element){
 int main(void){
         struct DynamicTable tab= {0,0,NULL};
         struct Info result;
-        printf("a");
         result = addElement(&tab, 3);
+        printMessage(result);
+        printDynamicTable(tab);
+        result = addElement(&tab, 5);
+        printMessage(result);
+        printDynamicTable(tab);
+        result = addElement(&tab, 7);
+        printMessage(result);
+        printDynamicTable(tab);
+        result = addElement(&tab, 9);
+        printMessage(result);
+        printDynamicTable(tab);
+        result = addElement(&tab, 11);
         printMessage(result);
         printDynamicTable(tab);
         return 0;
 }
-
