@@ -202,8 +202,18 @@ struct Info {
 
 struct DynamicTable{
         unsigned int size;
+        unsigned int idx;
         int *elements;
 };
+
+void printDynamicTable(struct DynamicTable table){
+        int i;
+        printf("size: %u, last element index: %u\n", table.size, table.idx);
+        for (i=0; i<=table.idx; i++){
+                printf("[%02d]: %d\n", i, table.elements[i]);
+        }
+}
+
 void printMessage(struct Info info){
         switch (info.code) {
                 case ERROR:
@@ -222,6 +232,19 @@ void printMessage(struct Info info){
 
 struct Info addElement(struct DynamicTable *table, int element){
         struct Info info = {SUCCESS};
+
+        //printf("%d\n", (*table).size);
+        //printf("%d\n", table->size);
+        if (table -> size == 0){
+                table -> elements = malloc (sizeof(int) * 1);
+                if (table -> elements == NULL) {
+                        info.code = ERROR;
+                        return info;
+                }
+                table -> size = 1;
+                table -> idx = 0;
+                (table -> elements)[table ->idx] = element;
+        }
         return info;
 }
 
@@ -230,11 +253,12 @@ struct Info addElement(struct DynamicTable *table, int element){
 
 
 int main(void){
-        struct DynamicTable tab;
+        struct DynamicTable tab= {0,0,NULL};
         struct Info result;
-
+        printf("a");
         result = addElement(&tab, 3);
         printMessage(result);
-
+        printDynamicTable(tab);
         return 0;
 }
+
