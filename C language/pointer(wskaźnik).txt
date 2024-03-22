@@ -258,7 +258,10 @@ struct Info addElement(struct DynamicTable *table, int element){
         }
         table->size *=2;
         table ->idx += 1;
+        free(table->elements);
+        table->elements =newTable;
         (table-> elements)[table->idx] = element;
+
         }
 
         }
@@ -289,3 +292,7 @@ int main(void){
         printDynamicTable(tab);
         return 0;
 }
+
+
+
+
