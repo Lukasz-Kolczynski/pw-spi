@@ -342,6 +342,51 @@ while ( !feof(fileIn) ){
 #program MIN MAX NUMBER FILE
 #Wylosowac NUMBER liczb z przedzialu [MIN, MAX] i zapisac do FILE.
 
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+
+
+int generateRandom (int min, int max) {
+  return min + rand() % (max - min +1);
+}
+
+void saveRandom(int min, int max, int number, char *filename) {
+  FILE *file = fopen(filename, "w");
+  if (file == NULL) {
+  printf("Nie można otworzyć pliku\n");
+  exit(1);
+}
+srand(time(NULL));
+for (int i = 0; i < number; i++){
+  int randNum= generateRandom(min, max);
+  fprintf(file, "%d", randNum);
+}
+fclose(file);
+}
+
+int main (int argc, char *argv[]){
+  if (argc!= 5){
+    printf("Za mało lub za dużo argumentów\n");
+    printf("Poprawny format: MN MAX NUMBER FILE/n");
+    return 1;
+}
+int min = atoi(argv[1]);
+int max = atoi(argv[2]);
+int number = atoi(argv[3]);
+char *filename = argv[4];
+
+saveRandom(min,max,number,filename);
+printf("Wylosowano %d liczb z przedziału [%d ,%d] i zapisano do pliku %s.\n",number,min,max,filename);
+
+return 0;
+}
+
+
+
+
 --------ZADANIE_2-----------
 
 #Program wywoływany z linii poleceń
