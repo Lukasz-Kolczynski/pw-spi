@@ -332,3 +332,23 @@ while ( !feof(fileIn) ){
   return 0;
 }
 
+
+
+
+---------ZADANIE_1----------
+
+#Program wywoływany z linii poleceń
+#Format wywołania:
+#program MIN MAX NUMBER FILE
+#Wylosowac NUMBER liczb z przedzialu [MIN, MAX] i zapisac do FILE.
+
+--------ZADANIE_2-----------
+
+#Program wywoływany z linii poleceń
+#Format wywołania:
+#program FILE ACTION
+#ACTION: sum - policzyć sumę liczb z pliku FILE
+         avg - policzyc średną liczb z pliku FILE
+#Wynik działania wyprowadzić na standardowe wyjście (ekran)
+
+
