@@ -343,6 +343,7 @@ while ( !feof(fileIn) ){
 #Wylosowac NUMBER liczb z przedzialu [MIN, MAX] i zapisac do FILE.
 
 
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -383,6 +384,11 @@ printf("Wylosowano %d liczb z przedziału [%d ,%d] i zapisano do pliku %s.\n",nu
 
 return 0;
 }
+
+
+#gcc zadanie1.c
+#./a.out 1 5 10 test.txt
+#cat test.txt
 
 
 
