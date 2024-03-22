@@ -294,5 +294,41 @@ int main(void){
 }
 
 
+----------zapis/odczyt------------
 
+#include <stdio.h>
+//;
+#include <stdlib.h>
+
+int main(void) {
+  FILE *fileIn, *fileOut;
+  char c;
+
+  fileIn= fopen("dane.txt", "rt");
+  fileOut = fopen ("out.txt", "wt");
+  if (fileIn == NULL || fileOut == NULL) {
+    printf("File error\n");
+    return 1;
+}
+
+
+
+while ( !feof(fileIn) ){
+  c = fgetc(fileIn);
+  //fputc(c, fileOut);
+  if (feof(fileIn)){
+    break;
+}
+  putc(c, stdout);
+  fputc(c, fileOut);
+}
+
+
+  //fread(&c,sizeof(char),1,fileIn);
+  //putc(c,stdout);
+
+  fclose(fileIn);
+  fclose(fileOut);
+  return 0;
+}
 
