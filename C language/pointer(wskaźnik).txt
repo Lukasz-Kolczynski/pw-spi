@@ -187,3 +187,54 @@ removeStudent(&list, "Bob");
 
 return 0;
 }
+
+
+
+
+#include <stdio.h>
+#include <stdlib.h>
+
+enum InfoCode {ERROR, SUCCESS};
+
+struct Info {
+        enum InfoCode code;
+};
+
+struct DynamicTable{
+        unsigned int size;
+        int *elements;
+};
+void printMessage(struct Info info){
+        switch (info.code) {
+                case ERROR:
+                        printf("Error\n");
+                        break;
+                case SUCCESS:
+                        printf("Success\n");
+                        break;
+                default:
+                        printf("Unknown message\n");
+                break;
+        }
+}
+
+
+
+struct Info addElement(struct DynamicTable *table, int element){
+        struct Info info = {SUCCESS};
+        return info;
+}
+
+
+
+
+
+int main(void){
+        struct DynamicTable tab;
+        struct Info result;
+
+        result = addElement(&tab, 3);
+        printMessage(result);
+
+        return 0;
+}
