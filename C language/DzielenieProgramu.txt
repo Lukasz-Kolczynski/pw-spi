@@ -201,3 +201,8 @@ int main(int argc, char ** argv) {
 }
 
 
+---------WYWOŁANIE_PROGRAMU------------
+gcc printMin.c printInRange.c mainDzielenie.c
+./a.out
+./a.out min 
+./a.out inRange 1 4 T T 
