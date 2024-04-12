@@ -40,14 +40,52 @@ void helperFunction(){
 function.c
 
 
+#include <stdio.h>
+#include "types.h"
+#include "functions.h"
+
+void bar (struct ImportantStructure s){
+  printf("Function: bar\n");
+  helperFunction();
+}
+
+void helperFunction(){
+  printf("Function: helperFunction\n");
+}
+
+
 
 
 ---------TRZECI PLIK--------
 function.h
 
+#ifndef FUNCTIONS_H
+#define FUNCTIONS_H
+
+void bar(struct ImportantStructure s);
+void helperFunction();
+
+
+#endif
 
 
 
 
 ---------CZWARTY PLIK--------
 types.h
+
+#ifndef TYPES_H
+#define TYPES_H
+
+
+typedef int TYPE;
+
+struct ImportantStructure {
+  TYPE value;
+  char * description;
+};
+
+#endif
+
+
+
