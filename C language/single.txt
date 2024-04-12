@@ -1,3 +1,7 @@
+---------PIERWSZY PLIK--------
+single.c
+
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -32,4 +36,18 @@ void helperFunction(){
 
 
 
+---------DRUGI PLIK--------
+function.c
 
+
+
+
+---------TRZECI PLIK--------
+function.h
+
+
+
+
+
+---------CZWARTY PLIK--------
+types.h
