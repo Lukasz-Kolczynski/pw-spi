@@ -1,4 +1,4 @@
----------PIERWSZY PLIK--------
+----------GŁÓWNY PROGRAM----------------
 single.c
 
 
@@ -36,7 +36,7 @@ void helperFunction(){
 
 
 
----------DRUGI PLIK--------
+----------PODPROGRAM(1)---------------
 function.c
 
 
@@ -56,7 +56,7 @@ void helperFunction(){
 
 
 
----------TRZECI PLIK--------
+----------PODPROGRAM(2)---------------
 function.h
 
 #ifndef FUNCTIONS_H
@@ -71,7 +71,7 @@ void helperFunction();
 
 
 
----------CZWARTY PLIK--------
+----------PODPROGRAM(3)---------------
 types.h
 
 #ifndef TYPES_H
@@ -89,7 +89,7 @@ struct ImportantStructure {
 
 
 
----------PIĄTY PLIK--------
+----------PODPROGRAM(4)---------------
 main.c 
 
 #include <stdlib.h>
