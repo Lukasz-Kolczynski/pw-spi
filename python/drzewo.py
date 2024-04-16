@@ -22,19 +22,55 @@
 
 
 
+## Przeszukiwanie w głąb (DFS)
+# class Node:
+#     def __init__(self, value):
+#         self.value = value
+#         self.left = None
+#         self.right = None 
+
+# def dfs_preorder(node):
+#     if node:
+#         print(node.value)
+#         dfs_preorder(node.left)
+#         dfs_preorder(node.right)
+
+
+# root = Node(1)
+# root.left = Node(2)
+# root.right = Node(3)
+# root.left.left = Node(4)
+# root.left.right = Node(5)
+
+# print("Przeszukiwanie w głąb(DFS) - Pre-order:")
+# dfs_preorder(root)
+
+
+
+## Przeszukiwanie wszerz(BFS)
+
+from collections import deque
 
 class Node:
     def __init__(self, value):
         self.value = value
         self.left = None
         self.right = None 
+        
+def bfs(root):
+    if root is None:
+        return
+     
+    queue = deque([root])
 
-def dfs_preorder(node):
-    if node:
-        print(node.value)
-        dfs_preorder(node.left)
-        dfs_preorder(node.right)
+    while queue:
+        current_node = queue.popleft()
+        print(current_node.value)
 
+        if current_node.left is not None:
+            queue.append(current_node.left)
+        if current_node.right is not None:
+            queue.append(current_node.right)
 
 root = Node(1)
 root.left = Node(2)
@@ -42,5 +78,6 @@ root.right = Node(3)
 root.left.left = Node(4)
 root.left.right = Node(5)
 
-print("Przeszukiwanie w głąb(DFS) - Pre-order:")
-dfs_preorder(root)
+print("Przeszukiwanie wszerz (BFS):")
+bfs(root)
+
