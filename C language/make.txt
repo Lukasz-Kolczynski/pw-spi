@@ -1,3 +1,4 @@
+1. Program
 ---------touch makefile----------
 
 .PHONY: sub_target
@@ -28,3 +29,46 @@ clean:
 
 ---------wywołanie----------
 make 
+
+
+
+######################################################
+
+
+
+2.Program
+----------touch main.c------------
+
+#include <stdlib.h>
+
+#include "external.h"
+
+int main(){
+        bar();
+
+        return EXIT_SUCCESS;
+}
+
+
+
+----------touch external.c----------
+
+#include <stdio.h>
+
+void bar(){
+        printf("Hello bar\n");
+
+}
+
+
+----------touch external.h----------
+
+#ifndef EXTERNAL
+#define EXTERNAL
+void bar();
+
+#endif
+
+
+
+----------touch makefile----------
