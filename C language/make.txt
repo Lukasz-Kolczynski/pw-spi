@@ -1,5 +1,10 @@
 ---------touch makefile----------
 
+.PHONY: sub_target
+.DEFAULT_GOAL := say2
+
+all: say say2
+
 say:
         @echo "Hello world"
 
@@ -11,6 +16,13 @@ target: sub_target
 
 sub_target:
         echo "sub_target"
+
+generate:
+        touch file_{1..10}.txt
+
+clean:
+        rm *.txt
+
 
 
 
