@@ -72,3 +72,16 @@ void bar();
 
 
 ----------touch makefile----------
+
+main: main.o external.o
+        gcc main.o external.o -o main
+
+
+%.o: %.c
+        @echo $<
+        @echo $@
+        gcc -c $< -o $@
+
+clear:
+        rm *.o
+
