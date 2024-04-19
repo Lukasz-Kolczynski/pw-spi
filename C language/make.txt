@@ -1,0 +1,18 @@
+---------touch makefile----------
+
+say:
+        @echo "Hello world"
+
+say2:
+        echo "Hello world 2"
+
+target: sub_target
+        echo "target"
+
+sub_target:
+        echo "sub_target"
+
+
+
+---------wywołanie----------
+make 
