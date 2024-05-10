@@ -1,0 +1,26 @@
+
+
+const int ledRed = 5;
+const int ledBlue = 6;
+const int ledYellow = 7;
+
+const int ledNumber = 3;
+
+int leds[] = {ledRed, ledBlue, ledYellow};
+
+void setup() {
+  for (int i=0; i<ledNumber; i++){
+	pinMode(leds[i] , OUTPUT);
+  }
+}
+
+
+
+void loop() {
+  
+  
+	digitalWrite(ledBlue, HIGH);
+  	delay(1000);
+  	digitalWrite(ledBlue, LOW);
+  	delay(500);
+}
