@@ -4,23 +4,64 @@ const int ledRed = 5;
 const int ledBlue = 6;
 const int ledYellow = 7;
 
-const int ledNumber = 3;
 
-int leds[] = {ledRed, ledBlue, ledYellow};
+
+class LedController {
+  	const int capacity =2;
+	int ledNumber;
+  	int leds[2];
+public:
+  LedController() {
+    ledNumber= 0;
+  }
+  bool addPin(int x);
+  void turnAllLEDs(int state = 1);
+};
+
+bool LedController::addPin(int x) {
+	int index = ledNumber;
+    if (index < capacity) {
+  		leds[index] = x; 
+  		ledNumber += 1;
+    	return true;
+  }
+  
+  return false;
+}
+
+void LedController::turnAllLEDs(int state){
+  for (int i=0; i<ledNumber; i++) {
+  if (state == 1) {
+  	digitalWrite(leds[i], HIGH);
+  } else{
+  	digitalWrite (leds[i], LOW);
+  }
+ }
+}
+
+LedController ledContr;
 
 void setup() {
-  for (int i=0; i<ledNumber; i++){
-	pinMode(leds[i] , OUTPUT);
-  }
+	Serial.begin(9600);
+	bool result = ledContr.addPin (ledRed);
+  	if (!result) {
+  		Serial.println("No space for red LED");
+  	}
+  	 result = ledContr.addPin (ledBlue);
+  	if (!result) {
+  		Serial.println("No space for blue LED");
+  	}
+  	 result = ledContr.addPin (ledYellow);
+  	if (!result) {
+  	Serial.println("No space for yellow LED");
+  	}
 }
 
 
 
 void loop() {
-  
-  
-	digitalWrite(ledBlue, HIGH);
-  	delay(1000);
-  	digitalWrite(ledBlue, LOW);
-  	delay(500);
+  ledContr.turnAllLEDs();
+  delay(1000);
+  ledContr.turnAllLEDs(0);
+  delay(500);
 }
