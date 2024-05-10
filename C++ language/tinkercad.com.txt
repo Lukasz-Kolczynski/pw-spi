@@ -1,63 +1,75 @@
-
-
 const int ledRed = 5;
-const int ledBlue = 6;
+const int ledGreen = 6;
 const int ledYellow = 7;
-
-
-
 class LedController {
-  	const int capacity =2;
+  	int capacity;
 	int ledNumber;
-  	int leds[2];
+	int *leds;
+  	int *active;
 public:
-  LedController() {
-    ledNumber= 0;
-  }
-  bool addPin(int x);
-  void turnAllLEDs(uint8_t state = HIGH);
+  	LedController(int capacity) {
+      	this -> capacity = capacity;
+  		ledNumber = 0;
+      	leds = new int[capacity];
+      	active = new int[capacity];
+  	}
+  	
+ 	 ~LedController() {
+  		delete [] leds;
+       	delete [] active;
+  	}
+  	
+  	bool addPin(int x);
+  	void turnAllLEDs(uint8_t state = HIGH);
+  	void activateLED(uint8_t p, bool active = true);
 };
-
-bool LedController::addPin(int x) {
-	int index = ledNumber;
-    if (index < capacity) {
-  		leds[index] = x; 
+bool LedController::addPin(int p) {
+  	int index = ledNumber;
+  	if (index < capacity){
+      	pinMode(p, OUTPUT);
+      	digitalWrite(p, LOW);
+  		leds[index] = p;
+      	active[index] += 1;
   		ledNumber += 1;
-    	return true;
-  }
-  
-  return false;
+  		return true;
+	}
+ 	return false;
 }
-
 void LedController::turnAllLEDs(uint8_t state){
-  for (int i=0; i<ledNumber; i++) {
-	digitalWrite(leds[i], state);
- }
+  	for(int i = 0; i < ledNumber; i++){
+		digitalWrite(leds[i], state);
+    }
 }
-
-LedController ledContr;
-
+void LedController::activateLED(uint8_t p, bool active) {
+    for (int i = 0; i < ledNumber; i++) {
+      	if (leds[i] == p) {
+          	this -> active[i] = active;
+          	break;
+        }
+    }
+}
+LedController ledContr(3);
 void setup() {
-	Serial.begin(9600);
-	bool result = ledContr.addPin (ledRed);
-  	if (!result) {
-  		Serial.println("No space for red LED");
-  	}
-  	 result = ledContr.addPin (ledBlue);
-  	if (!result) {
-  		Serial.println("No space for blue LED");
-  	}
-  	 result = ledContr.addPin (ledYellow);
-  	if (!result) {
-  	Serial.println("No space for yellow LED");
-  	}
+  	Serial.begin(9600);
+  	bool result = ledContr.addPin(ledRed);
+  	if(!result){
+    	Serial.println("No space for red LED");
+    }
+  	result = ledContr.addPin(ledGreen);
+  	if(!result){
+    	Serial.println("No space for green LED");
+    }
+  	result = ledContr.addPin(ledYellow);
+  	if(!result){
+    	Serial.println("No space for yellow LED");
+    }
 }
-
-
-
 void loop() {
-  ledContr.turnAllLEDs();
-  delay(1000);
-  ledContr.turnAllLEDs(LOW);
-  delay(500);
+  	
+	ledContr.turnAllLEDs();
+  	delay(1000);
+    ledContr.turnAllLEDs(LOW);
+  	delay(500);
+  	Serial.println("Ala ma kota i arduino");
+  	
 }
