@@ -15,7 +15,7 @@ public:
     ledNumber= 0;
   }
   bool addPin(int x);
-  void turnAllLEDs(int state = 1);
+  void turnAllLEDs(uint8_t state = HIGH);
 };
 
 bool LedController::addPin(int x) {
@@ -29,13 +29,9 @@ bool LedController::addPin(int x) {
   return false;
 }
 
-void LedController::turnAllLEDs(int state){
+void LedController::turnAllLEDs(uint8_t state){
   for (int i=0; i<ledNumber; i++) {
-  if (state == 1) {
-  	digitalWrite(leds[i], HIGH);
-  } else{
-  	digitalWrite (leds[i], LOW);
-  }
+	digitalWrite(leds[i], state);
  }
 }
 
@@ -62,6 +58,6 @@ void setup() {
 void loop() {
   ledContr.turnAllLEDs();
   delay(1000);
-  ledContr.turnAllLEDs(0);
+  ledContr.turnAllLEDs(LOW);
   delay(500);
 }
