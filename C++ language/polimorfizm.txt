@@ -6,6 +6,10 @@ class A {
     int x;
   public:
     int y;
+    A(){
+        x = 1;
+        y = 2;
+    }
     void info(){
         std::cout << "Class A::info()=" << std::endl;
         std::cout << "x=" << x << std::endl;
@@ -21,6 +25,10 @@ class B : public A {
   int z;
   public:
     int v;
+    B(){
+        z = 3;
+        v = 4;
+    }
     void info(){
         std::cout << "Class B::info()=" << std::endl;
         std::cout << "z=" << z << std::endl;
@@ -35,20 +43,10 @@ int main()
 {
     A a;
     B b;
+    
     a.info();
-    
-    //a.x = 1;
-    a.y = 2;
-    a.info();
-    
-    cout << "=======" << endl;
-    
-    b.info();
-    b.v = 2;
-    b.y = 3;
     b.info();
     
-    b.A::info();
     
     return 0;
 }
