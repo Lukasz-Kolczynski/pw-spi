@@ -44,9 +44,17 @@ int main()
     A a;
     B b;
     
+    A * pa;
+    B * pb;
+    
     a.info();
     b.info();
     
+    pa = &a;
+    pb = &b;
+    
+    pa -> info();
+    pb -> info();
     
     return 0;
 }
