@@ -10,9 +10,12 @@ class A {
         std::cout << "x=" << x << std::endl;
         std::cout << "y=" << y << std::endl;
     }
+    int getX(){
+        return x;
+    }
 };
 
-class B{
+class B : public A {
   private:
   int z;
   public:
@@ -20,6 +23,9 @@ class B{
     void info(){
         std::cout << "z=" << z << std::endl;
         std::cout << "v=" << v << std::endl;
+        //std::cout << "x=" << x << std::endl;
+        std::cout << "x=" << getX() << std::endl;
+        std::cout << "y=" << y << std::endl;
     }
 };
 
