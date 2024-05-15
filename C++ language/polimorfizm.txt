@@ -1,0 +1,27 @@
+#include <iostream>
+
+class A {
+  private:
+    int x;
+  public:
+    int y;
+    void info(){
+        std::cout << "x=" << x << std::endl;
+        std::cout << "y=" << y << std::endl;
+    }
+};
+
+int main()
+{
+    A a;
+    a.info();
+    
+    a.x = 1;
+    a.y = 2;
+    
+    a.info();
+    
+    
+    
+    return 0;
+}
