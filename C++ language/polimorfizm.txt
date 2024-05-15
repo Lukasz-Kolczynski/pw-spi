@@ -1,4 +1,5 @@
 #include <iostream>
+using namespace std;
 
 class A {
   private:
@@ -11,17 +12,32 @@ class A {
     }
 };
 
+class B{
+  private:
+  int z;
+  public:
+    int v;
+    void info(){
+        std::cout << "z=" << z << std::endl;
+        std::cout << "v=" << v << std::endl;
+    }
+};
+
 int main()
 {
     A a;
+    B b;
     a.info();
     
-    a.x = 1;
+    //a.x = 1;
     a.y = 2;
-    
     a.info();
     
+    cout << "=======" << endl;
     
+    b.info();
+    b.v = 2;
+    b.info();
     
     return 0;
 }
