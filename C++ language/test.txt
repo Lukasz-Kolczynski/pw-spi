@@ -1,0 +1,128 @@
+------Napisz funkcję foo()-----
+
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+
+using namespace std;
+
+void foo(int& x) {
+    int losowaL = rand() % 10 + 1;
+    x += losowaL;
+}
+
+int main() {
+    srand(time(0));
+    int a = 3;
+    foo(a);
+    cout << a << endl;
+
+    return 0;
+}
+
+---------------konstruktor--------------------------
+
+#include <iostream>
+using namespace std;
+
+class Foo {
+private:
+    static int wlasciweId;
+    int id;
+
+public:
+    Foo() {
+        id = ++wlasciweId;
+    }
+
+    int getId(){
+        return id;
+    }
+};
+
+int Foo::wlasciweId = 0;
+
+int main() {
+    Foo a, b, c, d;
+
+    cout << a.getId() << endl; 
+    cout << b.getId() << endl; 
+    cout << c.getId() << endl; 
+    cout << d.getId() << endl; 
+
+    return 0;
+}
+
+
+------------------class-----------------------------
+
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Clock {
+public:
+    void setTime(int year = 2024, int month = 5, int day = 10, int hour = 8, int minute = 30, int second = 0);
+};
+
+void Clock::setTime(int year, int month, int day, int hour, int minute, int second) {
+    cout << (day < 10 ? "0" : "") << day << "-" << (month < 10 ? "0" : "") << month << "-" << year << ", ";
+    cout << (hour < 10 ? "0" : "") << hour << ":" << (minute < 10 ? "0" : "") << minute << ":" << (second < 10 ? "0" : "") << second << endl;
+}
+
+int main() {
+    Clock c;
+    c.setTime(2024, 5, 10, 8, 30, 20);
+    c.setTime(2024, 5, 10, 8, 30);
+    c.setTime(2024, 5, 10);
+    c.setTime(8, 30);
+    return 0;
+}
+
+------------------------------------------------------
+
+#include <iostream>
+
+using namespace std;
+
+class A {
+private:
+    int pierwszaA;
+    int drugaA;
+
+public:
+    A(int xVal, int yVal) : pierwszaA(xVal), drugaA(yVal) {}
+
+    void info() {
+        cout << "pierwsza = " << pierwszaA << endl;
+        cout << "druga = " << drugaA << endl;
+        cout << "==============" << endl;
+    }
+};
+
+class B : public A {
+private:
+    int pierwszaB;
+    int drugaB;
+
+public:
+    B(int pierwszaBVal, int drugaBVal, int pierwszaAVal, int drugaAVal) : pierwszaB(pierwszaBVal), drugaB(drugaBVal), A(pierwszaAVal, drugaAVal) {}
+
+    void info() {
+        cout << "Składowe klasy B:" << endl;
+        cout << "pierwszaB = " << pierwszaB << endl;
+        cout << "drugaB = " << drugaB << endl;
+        cout << "==============" << endl;
+
+        cout << "Składowe dziedziczone z klasy A:" << endl;
+        A::info();
+    }
+};
+
+int main() {
+    B liczby(12, 43, 32, 21);
+    B *pointer = &liczby;
+    pointer->info();
+
+    return 0;
+}
