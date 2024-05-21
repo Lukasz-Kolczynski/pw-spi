@@ -1,12 +1,23 @@
 import hashlib
 import os
 
-def hash_p(password):
-    sha= hashlib.sha256()
-    salt = os.urandom(16)
-    sha.update(salt+password.encode('utf-8'))
-    return sha.hexdigest()
+def hash_p(password, algorithm='sha256'):
+    if algorithm not in hashlib.algorithms_available:
+        raise ValueError ("Wrong algorithm")
+    
 
-password = input ("Podaj hasło: ")
-hashed_p = hash_p(password)
-print (f"Hashed password (sha256): {hashed_p}")
+    hasher = hashlib.new(algorithm)
+    salt = os.urandom(16)
+    hasher.update(salt+password.encode('utf-8'))
+    return hasher.hexdigest()
+
+def main():
+    try:
+
+        password = input ("Podaj hasło: ")
+        algorithm = input ("Hash type (Default -sha256-):  ").lower() or 'sha256'
+        hashed_p = hash_p(password, algorithm)
+        print(f"Hashed password ({algorithm}): {hashed_p}")
+    except Exception as e:
+        print(f"Wystąpił błąd: {e}")
+main()
