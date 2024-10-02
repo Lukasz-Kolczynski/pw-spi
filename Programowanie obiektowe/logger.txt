@@ -1,0 +1,11 @@
+class Logger
+{
+    public: // składowe publiczne
+        Logger(LogWriter writer); // konstruktor
+        void logInfo(std::string text);
+        void logWarning(std::string text);
+        void logError(std::string text);
+        void addWriter(LogWriter writer);
+
+    private
+}
