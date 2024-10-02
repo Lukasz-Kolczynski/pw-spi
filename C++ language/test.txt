@@ -71,7 +71,7 @@ void Clock::setTime(int year, int month, int day, int hour, int minute, int seco
 }
 
 int main() {
-    Clock c;
+    Clock c; 
     c.setTime(2024, 5, 10, 8, 30, 20);
     c.setTime(2024, 5, 10, 8, 30);
     c.setTime(2024, 5, 10);
@@ -123,6 +123,8 @@ int main() {
     B liczby(12, 43, 32, 21);
     B *pointer = &liczby;
     pointer->info();
+
+    liczby.A::getPierwszaA() << endl;
 
     return 0;
 }
