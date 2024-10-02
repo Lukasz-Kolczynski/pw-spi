@@ -1,5 +1,5 @@
+#include <stdio.h>
 #include "line.h"
-#include "point.h"
 #include "point.h"
 
 int main()
@@ -15,3 +15,19 @@ int main()
     point_free(p2);
     point_free(p1);
 } 
+
+point_t *point_new(int x, int y)
+{
+    point_t *p = malloc(sizeof(struct point));
+    p->x = x;
+    p->y = y;
+    return p;
+}
+
+point_t *line_new(point *pl, point *p2)
+{
+    point_t *l = malloc(sizeof(struct line));
+    l-> start = pl;
+    l->end =  p2;
+    return l;
+}
