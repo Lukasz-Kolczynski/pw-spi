@@ -22,7 +22,7 @@ class Complex {
 
     private:
         double re;
-        double im;
+        double im;   
 
 };
 
