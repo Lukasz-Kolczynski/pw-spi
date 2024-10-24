@@ -122,8 +122,6 @@ class Desktop : public Computer {
             Computer::print();
             std::cout << formFactor << " / " << psu << std::endl; 
         }
-    void setFormFactor(const std::string& formFactor) { this->formFactor = formFactor; }
-    void setPsu(const std::string& psu) { this->psu = psu; }
 };
 
 void show(const Computer computer) {
