@@ -118,9 +118,17 @@ class Desktop : public Computer {
         : Computer(manufacturer, model, cpu, ramMemory, diskMemory),formFactor(formFactor), psu(psu)
         {}
 
-
+        void print() {
+            Computer::print();
+            std::cout << formFactor << " / " << psu << std::endl; 
+        }
+    void setFormFactor(const std::string& formFactor) { this->formFactor = formFactor; }
+    void setPsu(const std::string& psu) { this->psu = psu; }
 };
 
+void show(const Computer computer) {
+    computer.print();
+}
 
 
 int main() {
@@ -133,5 +141,11 @@ int main() {
     Desktop d("Optimus", "PW-000", "i13-4321X", 96, 4096, "SFF", "550W 80 Plus Gold");
     std::cout << "Specyfikacja desktopa:" << std::endl;
     d.print();
-    return 0;
+
+    std::cout << " Specyfikacja przez show: " << std::endl;
+    show(c);
+    show(l);
+    show(d);
+
+     return 0;
 }
