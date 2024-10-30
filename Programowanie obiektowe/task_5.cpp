@@ -75,3 +75,32 @@ private:
 
 };
 
+class Hammer : public Weapon{
+public:
+    Hammer() : Weapon("Hammer") {};
+    ~Hammer() {std::cout << "Hammer object is being destroyed..." << std::endl;};
+    virtual float getDamage() override {
+        if (durability > 0) {
+            return damage;
+        }
+        else {
+            return 0.0f;
+        }
+    }
+    virtual bool isBroken() override {
+        return durability <= 1.0f;
+    }
+    virtual void use() override {
+        print();
+        if (!isBroken()) durability -= 1;
+    }
+    virtual void repair() override {
+        durability = defaultDurability;
+    }
+
+
+private:
+    const unsigned int defaultDurability = 4;
+    const float damage = 3.5;
+    unsigned int durability = defaultDurability;
+};
