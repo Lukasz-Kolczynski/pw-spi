@@ -104,3 +104,13 @@ private:
     const float damage = 3.5;
     unsigned int durability = defaultDurability;
 };
+
+int main () {
+    Weapon *equipment[4] = {
+        new Sword,
+        new Hammer,
+        new Sword,
+        new Hammer
+    };
+
+}
