@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-
+#include <cstdlib>
 
 
 class Item
@@ -10,7 +10,9 @@ class Item
         return name;
     }
     unsigned int getID() {return id;}
-    static unsigned int getCount() {return count;}
+    static unsigned int getCount() {
+        return count;
+        }
 
 protected:
     Item(const std::string &name) : name(name), id(++count) {} ;
@@ -53,11 +55,18 @@ public:
     Sword() : Weapon ("Sword") {}
     ~Sword() { std::cout << "Sword object is being destroyed..." << std::endl; }
 
-    float getDamage() override {return baseDamage * sharpness; }
-    bool isBroken() override {return <= 0.0f;}
-    void use() override {
+    virtual float getDamage() override {
+        return baseDamage * sharpness; 
+        }
+    virtual bool isBroken() override {
+        return sharpness <= 0.0f;
+        }
+    virtual void use() override {
         print();
-        if (!isBroken)
+        if (!isBroken()) sharpness-=0.1f;
+    }
+    virtual void repair() override {
+        if (sharpness <1.0f) sharpness = std::min(sharpness * 1.1f , 1.0f);
     }
 
 private:
@@ -65,3 +74,4 @@ private:
     float sharpness = 0.5;
 
 };
+
