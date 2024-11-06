@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include <cstdlib>
-
+#include <ctime>
 
 class Item
 {
@@ -106,6 +106,9 @@ private:
 };
 
 int main () {
+    std::srand(std::time(0));
+
+
     Weapon *equipment[4] = {
         new Sword,
         new Hammer,
@@ -113,4 +116,9 @@ int main () {
         new Hammer
     };
 
+    bool allBroken = false;
+
+
+
+    return 0;
 }
