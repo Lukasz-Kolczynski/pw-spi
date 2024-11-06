@@ -29,8 +29,11 @@ class HybridCar : public PetrolCar, public ElectricCar {
 
 int main() {
     HybridCar hc;
+    
+    /* 
     PetrolCar &pc = static_cast<PetrolCar&>(hc);
     ElectricCar &ec = static_cast<ElectricCar&>(hc);
+    */
 
     pc.setVin("40285278352543");
     ec.setVin("45345423");
