@@ -181,7 +181,7 @@ public:
         strcpy(enegryCategory,source.enegryCategory);  
     }
 
-//_zwracany_typ_ & operator 🙁 const typ & );
+//_zwracany_typ_ & operator = ( const typ & );
 
     Params& operator=(const Params& source)
     {
