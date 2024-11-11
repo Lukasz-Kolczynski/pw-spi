@@ -1,3 +1,4 @@
+/*
 #include <iostream>
 #include <cstring>
 
@@ -110,6 +111,137 @@ int main ()
     esp32_with_screen* ptr = &esp3;
     ptr -> showInfo();
 
+
+    return 0;
+}
+
+*/
+
+
+
+#include <iostream>
+#include <cstring>
+
+
+class Rocket 
+{
+public:
+    virtual void showInfo() = 0;
+    virtual ~Rocket() {}
+
+};
+
+
+class Technical_data : public Rocket 
+{
+private:
+    std::string name;
+    int ProductionYear;
+    int length;
+    int width;
+    std::string Fuel;
+    char* seats;
+
+
+public:
+    Technical_data (const std::string& _name, const int _ProductionYear, const int _length, const int _width, const std::string& _Fuel, const char* _seats) : name(_name), ProductionYear(_ProductionYear), length(_length), width(_width), Fuel(_Fuel)
+    {
+        seats = new char[strlen(_seats)+1];
+        strcpy(seats, _seats);
+    }
+
+    ~Technical_data()
+    {
+        delete [] seats;
+    }
+
+    Technical_data(const Technical_data& source) : name(source.name), ProductionYear(source.ProductionYear),length(source.length), width(source.width), Fuel(source.Fuel)
+    {
+        seats = new char[strlen(source.seats)+1];
+        strcpy(seats, source.seats);
+    }
+
+    Technical_data& operator =( const Technical_data &source )
+    {
+        if (this != &source)
+        {
+            name = source.name;
+            ProductionYear = source.ProductionYear;
+            length = source.length;
+            width = source.width;
+            Fuel = source.Fuel;
+            delete [] seats;
+            seats = new char[strlen(source.seats)+1];
+            strcpy(seats, source.seats);
+        }
+        return *this;
+    }
+
+    const int area()
+    {
+        return length * width;
+    }
+
+    friend std::ostream& operator<<(std::ostream& out, const Technical_data &other )
+    {
+        out << "name: "<< other.name << "\nProduction Year: "<< other.ProductionYear << "\nlength: " << other.length << "\nwidth: " << other.width << "\nFuel: "<< other.Fuel << "\nSeats: " << other.seats << std::endl;
+        return out;
+    }
+
+    bool operator == (const Technical_data& source) const
+    {
+        return name==source.name && ProductionYear==source.ProductionYear && length==source.length && width==source.width && Fuel==source.Fuel && strcmp(seats,source.seats)==0;
+    }
+
+    virtual void showInfo()override
+    {
+        std::cout<<"\nSpecification about this Rocket: \n" <<*this<<std::endl;
+    }
+
+};
+
+
+
+int main()
+{
+    Technical_data rakieta1("Elafi",1998,24,5,"liquid hydrogen","6");
+    rakieta1.showInfo();
+
+    Technical_data rakieta2("Baggi",1943,53,2,"rocket-grade","2");
+    rakieta2.showInfo();
+
+    Technical_data rakieta3("Funfo",2004,16,32,"LOX","4");
+    rakieta3.showInfo();
+
+        if (rakieta1==rakieta2)
+    {
+        std::cout<<"są takie same" << std::endl;
+    }
+    else
+    {
+        std::cout << "są rózne" << std::endl;
+    }
+
+    rakieta1 = rakieta2;
+    rakieta1.showInfo();
+
+    int areaR = rakieta3.area();
+    std::cout <<"Area of rakieta3: " << areaR <<std::endl;
+
+    Technical_data rakieta4 = rakieta3;
+    rakieta4.showInfo();
+
+    if (rakieta1==rakieta2)
+    {
+        std::cout<<"są takie same" << std::endl;
+    }
+    else
+    {
+        std::cout << "są rózne" << std::endl;
+    }
+
+    Rocket* ptr = &rakieta3;
+    ptr -> showInfo();
 
     return 0;
 }
