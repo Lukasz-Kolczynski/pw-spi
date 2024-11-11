@@ -117,7 +117,7 @@ int main ()
 
 */
 
-
+/*
 
 #include <iostream>
 #include <cstring>
@@ -242,6 +242,124 @@ int main()
 
     Rocket* ptr = &rakieta3;
     ptr -> showInfo();
+
+    return 0;
+}
+
+*/
+
+
+#include <iostream>
+#include <cstring>
+#include <cmath>
+
+class TV 
+{
+//static int unique_id;
+public:
+    virtual void showInfo() = 0;
+    virtual ~TV() {};
+};
+
+class Params : public TV 
+{
+private:
+    int height;
+    int length;
+    std::string brand;
+    char* energyCategory;
+
+public:
+    Params(const int _height, const int _length, const std::string& _brand, const char* _energyCategory) : height(_height), length(_length), brand(_brand)
+    {
+        energyCategory = new char [strlen(_energyCategory)+1];
+        strcpy(energyCategory, _energyCategory);
+    }
+
+    ~Params() 
+    {
+        delete [] energyCategory;
+    }
+
+    Params(const Params& soruce) : height(soruce.height), length(soruce.length), brand(soruce.brand)
+    {
+        energyCategory = new char [strlen(soruce.energyCategory)+1];
+        strcpy(energyCategory, soruce.energyCategory);
+    }
+
+    Params& operator=(const Params& source)
+    {
+        if (this !=&source)
+        {
+            height=source.height;
+            length=source.length;
+            brand=source.brand;
+            delete [] energyCategory;
+            energyCategory = new char[strlen(source.energyCategory)+1];
+            strcpy(energyCategory, source.energyCategory);
+        }
+        return *this;
+    }
+
+    const double diagonal()
+    {
+        double result = std::sqrt(length * length + height * height);
+        double inch = result / 2.54;
+        return inch ;
+    }
+    
+    friend std::ostream& operator<<(std::ostream& out, const Params &other)
+    {
+        out << "\n wysokość: "<<other.height<< "\n długość: "<< other.length <<"\n marka: "<<other.brand<< "\n Kategoria Energii: "<<other.energyCategory<<std::endl;
+        return out;
+    }
+
+    bool operator==(const Params& source)
+    {
+    return length==source.length && height==source.height && brand==source.brand && strcmp(energyCategory, source.energyCategory)==0;
+    }
+
+
+    virtual void showInfo()override
+    {
+        std::cout << "Information of your TV: \n" << *this << std::endl;
+    }
+
+};
+
+//int Params::unique_id=123;
+
+int main()
+{
+    Params telewizor1(10,20,"samsung","A");
+    telewizor1.showInfo();
+    
+    int inches = telewizor1.diagonal();
+    std::cout<<"\n Telewizor1 ma tyle cali: " << inches <<std::endl;
+
+    Params telewizor2(32,50,"sfdsgng","B");
+    telewizor2.showInfo();
+
+    Params telewizor3(20,53,"samdsadsung","C");
+    telewizor3.showInfo();
+
+    telewizor1=telewizor3;
+    telewizor1.showInfo();
+
+    if(telewizor1==telewizor2)
+    {
+        std::cout<<"tv1 i tv2 są takie same"<<std::endl;
+    }
+    else
+    {
+        std::cout<<"tv1 i tv2 nie są takie same"<<std::endl;
+    }
+
+    Params telewizor4 = telewizor2;
+    telewizor4.showInfo();
+
+    TV *ptr = &telewizor4;
+    ptr->showInfo();
 
     return 0;
 }
