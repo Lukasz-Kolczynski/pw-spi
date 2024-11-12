@@ -522,6 +522,21 @@ public:
         strcpy(kids, _kids);
     }
 
+    int get_age()
+    {
+        return age;
+    }
+
+ std::string get_name()
+    {
+        return name;
+    }
+    
+    
+    char* get_kids()
+    {
+        return kids;
+    }
 
     ~Person () 
     {
@@ -572,7 +587,7 @@ public:
 
     virtual void showInfo()override
     {
-        std::cout << "Informations about this family: \n" << *this << std::endl;
+        std::cout << "Informations about this family: \n" << *this <<"ID osoby: "<<PersonID<< std::endl;
     }
 
 
@@ -605,7 +620,10 @@ int main()
         std::cout << "nie są takie same" << std::endl;
     }
 
-
+    p4.set_new_kid("Leon","kid",1,"0");
+    p4.showInfo();
     
+    std::cout << "getter z p1:  "<<p1.get_kids()<<std::endl;
+
     return 0;
 }
