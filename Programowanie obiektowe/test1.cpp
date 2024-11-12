@@ -248,6 +248,7 @@ int main()
 
 */
 
+/*
 
 #include <iostream>
 #include <cstring>
@@ -360,6 +361,121 @@ int main()
 
     TV *ptr = &telewizor4;
     ptr->showInfo();
+
+    return 0;
+}
+
+*/
+
+
+#include <iostream>
+#include <cstring>
+
+class Pokemon 
+{
+public:
+    virtual void showInfo() = 0;
+    virtual ~Pokemon () {};
+};
+
+
+class Ability : public Pokemon 
+{
+private:
+    int attack_damage;
+    std::string ultimate;
+    int HP;
+    std::string name;
+    char* tier;
+
+public:
+    static int pokedexID;
+    Ability(const int _attack_damage, const std::string& _ultimate, const int _HP, const std::string& _name, const char* _tier) : 
+    attack_damage(_attack_damage), ultimate(_ultimate), HP(_HP), name(_name)
+    {
+        tier = new char[strlen(_tier)+1];
+        strcpy(tier,_tier);
+    }
+
+    ~Ability () 
+    {
+        delete [] tier;
+    }
+
+    Ability (const Ability &source): attack_damage(source.attack_damage), ultimate(source.ultimate), HP(source.HP), name(source.name)
+    {
+        tier = new char[strlen(source.tier)+1];
+        strcpy(tier, source.tier);
+    }
+
+
+    Ability& operator =(const Ability &source) 
+    {
+        if (this != &source)
+        {
+            attack_damage = source.attack_damage;
+            ultimate = source.ultimate;
+            HP = source.HP;
+            name = source.name;
+            delete [] tier;
+            tier = new char[strlen(source.tier)+1];
+            strcpy(tier, source.tier);
+        }
+        return *this;
+    }
+
+    const int UseUlt()
+    {
+        return 2*attack_damage;
+    }
+
+    friend std::ostream& operator<<(std::ostream& out, const Ability &other)
+    {
+        out << "\nattack Damage: " <<other.attack_damage<< "\nultimate: "<< other.ultimate << "\nHP: " << other.HP << "\nName: " << other.name << "\nTier: " << other.tier << std::endl;
+        return out;
+    }
+
+    bool operator ==(const Ability &source) const
+    {
+        return attack_damage==source.attack_damage && ultimate==source.ultimate && HP==source.HP && name==source.name && strcmp(tier, source.tier)==0;
+    }
+
+    virtual void showInfo()override
+    {
+        std::cout << "Information of your Pokemon: \n" <<*this<<"ID: "<<pokedexID<<std::endl;
+    }
+
+
+};
+
+int Ability::pokedexID = 10;
+
+
+int main()
+{
+    Ability p1(15,"Splash",69,"Wodzianka","S");
+    p1.showInfo();
+    Ability p2(25,"Fire",23,"awawe","A");
+    p2.showInfo();
+    Ability p3(55,"Ground",43,"bebe","B");
+    p3.showInfo();
+
+    std::cout << "p1 po zmianie danych z p2: " <<std::endl;
+    p1=p2;
+    p1.showInfo();
+
+    if(p1==p2)
+    {
+        std::cout <<"p1 i p2 sa takie same"<< std::endl;
+    }
+    else
+    {
+        std::cout << "p1 i p2 sa różne" <<std::endl;
+    }
+
+    Pokemon *ptr = &p3;
+    ptr->showInfo();
+
 
     return 0;
 }
