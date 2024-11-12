@@ -510,6 +510,7 @@ public:
     {
         kids = new char[strlen(_kids)+1];
         strcpy(kids, _kids);
+        PersonID++;
     }
 
     void set_new_kid(const std::string& _name, const std::string& _who, const int _age, const char* _kids) 
@@ -520,6 +521,7 @@ public:
         delete [] kids;
         kids = new char[strlen(_kids)+1];
         strcpy(kids, _kids);
+        PersonID++;
     }
 
     int get_age()
@@ -547,6 +549,7 @@ public:
     {
         kids = new char[strlen(source.kids)+1];
         strcpy(kids, source.kids);
+        PersonID++;
     }
 
 
@@ -560,6 +563,7 @@ public:
             delete [] kids;
             kids = new char[strlen(source.kids)+1];
             strcpy(kids, source.kids);
+            PersonID++;
         }
         return *this;
     }
@@ -593,7 +597,7 @@ public:
 
 };
 
-int Person::PersonID=10;
+int Person::PersonID=0;
 
 
 int main() 
