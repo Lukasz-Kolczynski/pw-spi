@@ -367,7 +367,7 @@ int main()
 
 */
 
-
+/*
 #include <iostream>
 #include <cstring>
 
@@ -477,5 +477,135 @@ int main()
     ptr->showInfo();
 
 
+    return 0;
+}
+
+*/
+
+#include <iostream>
+#include <cstring>
+#include <cmath>
+
+
+class Family 
+{
+public:
+    virtual void showInfo() = 0;
+    virtual ~Family () {};
+};
+
+class Person : public Family
+{
+private:
+    std::string name;
+    std::string who;
+    int age;
+    char* kids; 
+
+
+
+public:
+    static int PersonID;
+    Person(const std::string& _name, const std::string& _who, const int _age, const char* _kids) : name(_name), who(_who), age(_age)
+    {
+        kids = new char[strlen(_kids)+1];
+        strcpy(kids, _kids);
+    }
+
+    void set_new_kid(const std::string& _name, const std::string& _who, const int _age, const char* _kids) 
+    {
+        name = _name;
+        who = _who;
+        age = _age;
+        delete [] kids;
+        kids = new char[strlen(_kids)+1];
+        strcpy(kids, _kids);
+    }
+
+
+    ~Person () 
+    {
+        delete [] kids;
+    }
+
+    Person (const Person &source) : name(source.name), who(source.who), age(source.age)
+    {
+        kids = new char[strlen(source.kids)+1];
+        strcpy(kids, source.kids);
+    }
+
+
+    Person& operator = (const Person &source)
+    {
+        if(this != &source)
+        { 
+            name = source.name;
+            who = source.who;
+            age = source.age;
+            delete [] kids;
+            kids = new char[strlen(source.kids)+1];
+            strcpy(kids, source.kids);
+        }
+        return *this;
+    }
+
+
+    const int date_of_birth()
+    {
+        int date_now = 2024;
+        int date_born = date_now - age;
+        return date_born;
+    }
+
+
+    friend std::ostream& operator << (std::ostream& out, const Person &other)
+    {
+        out << "\nname: " << other.name << "\nwho in family?: " << other.who << "\nage: " << other.age << "\nHow many kids?: " << other.kids << std::endl;
+        return out;
+    }
+
+
+    bool operator == (const Person &source) const
+    {
+        return name == source.name && who == source.who && age == source.age && strcmp(kids, source.kids)== 0;
+    }
+
+    virtual void showInfo()override
+    {
+        std::cout << "Informations about this family: \n" << *this << std::endl;
+    }
+
+
+};
+
+int Person::PersonID=10;
+
+
+int main() 
+{
+    Person p1("Łukasz", "Dad", 30, "2");
+    p1.showInfo();
+    Person p2("Kinga", "Mom", 29, "2");
+    p2.showInfo();
+    Person p3("Nikola", "Kid", 3, "0");
+    p3.showInfo();
+
+    Person p4=p2;
+    p4.showInfo();
+
+    p4 = p3;
+    p3.showInfo();
+
+    if(p3==p4)
+    {
+        std::cout << "są takie same" << std::endl;
+    }
+    else
+    {
+        std::cout << "nie są takie same" << std::endl;
+    }
+
+
+    
     return 0;
 }
