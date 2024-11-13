@@ -482,6 +482,8 @@ int main()
 
 */
 
+/*
+
 #include <iostream>
 #include <cstring>
 #include <cmath>
@@ -628,6 +630,125 @@ int main()
     p4.showInfo();
     
     std::cout << "getter z p1:  "<<p1.get_kids()<<std::endl;
+
+    return 0;
+}
+
+*/
+
+#include <iostream>
+#include <cstring>
+
+class Computer 
+{
+public:
+    virtual void showInfo()=0;
+    virtual ~Computer () {};
+};
+
+
+class Params : public Computer
+{
+private:
+    std::string name;
+    int height;
+    int length;
+    char* energyCategory;
+
+public:
+    static int CompID;
+    Params(const std::string& _name, const int _height, const int _length, const char* _energyCategory) : name(_name), height(_height), length(_length)
+    {
+        energyCategory = new char[strlen(_energyCategory)+1];
+        strcpy(energyCategory, _energyCategory);
+        CompID++;
+    }
+
+    ~Params()
+    {
+        delete [] energyCategory;
+    }
+
+    Params(const Params &source) : name(source.name), height(source.height), length(source.length)
+    {
+        energyCategory = new char [strlen(source.energyCategory)+1];
+        strcpy(energyCategory, source.energyCategory);
+        
+    }
+
+    Params& operator= (const Params &source)
+    {
+        if(this != &source)
+        {
+            name = source.name;
+            height = source.height;
+            length = source.length;
+            delete [] energyCategory;
+            energyCategory = new char[strlen(source.energyCategory)+1];
+            strcpy(energyCategory, source.energyCategory);
+            
+        }
+        return *this;
+    }
+
+
+
+    const int area()
+    {
+        return height*length;
+    }
+
+    friend std::ostream& operator << (std::ostream& out, const Params &other)
+    {
+        out << "name: " <<other.name<< "\nheight: " <<other.height<< "\nlength: " <<other.length<< "\nenergyCategory: "<<other.energyCategory<<std::endl;
+        return out;
+    }
+
+Params operator+(const Params &other) const
+{
+    int newHeight = height + other.height;
+    int newLength = length + other.length;
+
+    char* newEnergyCategory = new char[strlen(energyCategory) + 1];
+    strcpy(newEnergyCategory, energyCategory);
+    CompID++;
+
+    return Params(name + "&" + other.name, newHeight, newLength, newEnergyCategory);
+}
+
+
+    void showInfo()
+    {
+        std::cout << "\nInforamtion about your PC: \n" << *this << "Computer ID: " << CompID <<std::endl;
+    }
+
+};
+
+int Params::CompID=0;
+
+int main()
+{
+    Params comp1("DELL", 50, 70 , "B");
+        comp1.showInfo();
+    Params comp2("LG", 43, 54 , "A");
+        comp2.showInfo();
+    Params comp3("SONY", 80, 20 , "C");
+        comp3.showInfo();
+
+    Params p= comp1 + comp2;
+    std::cout << "\nResult of operator + : \n" << p << std::endl;
+
+    comp1 = comp2;
+    std::cout << "\np1 ma wartosci p2: \n" <<comp1<<std::endl;
+
+
+    std::cout << "\nwywołanie polimorfizmu: \n" << std::endl;
+        Params *ptr = &comp3;
+        ptr -> showInfo();
+
+
+    
+
 
     return 0;
 }
