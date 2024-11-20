@@ -1,7 +1,7 @@
 #include <iostream>
 #include <stdexcept>
 
-double div ( double a, double b) 
+double mydiv ( int a, int b) 
 {
     if (b==0)
     {
@@ -12,10 +12,14 @@ double div ( double a, double b)
 
 int main()
 {
-    double a = 5;
-    double b = 0;  
-
-    std::cout << div(a,b) << std::endl;
-
+try
+{
+    mydiv(5,0);
+}
+catch(const std::exception& e)
+{
+    std::cerr << e.what() << '\n';
+}
+std::cout << "Kontynuacja programu\n" << std::endl;
     return 0;
 }
