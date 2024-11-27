@@ -22,12 +22,20 @@ findMostOccurences(const std::vector<T> &v)
         map[value] += 1;
     }
     //for(const std::pair<T, size_t &value : map)
+    std::pair<int, unsigned int> result;
+    result.second = 0;
     for (const auto &value : map)
-    { 
-        std::cout << value.first << " " << value.second << std::endl;
+    {
+        if (value.second > result.second)
+        {
+            result.first = value.first;
+            result.second = value.second;
+        }
+    
+        //std::cout << value.first << " " << value.second << std::endl;
     }
 
-    return std::make_pair(1,1);
+    return result;
 }
 
 
