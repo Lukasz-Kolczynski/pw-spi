@@ -74,10 +74,6 @@ public:
         }
     }
 
-    bool isEmpty() override
-    {
-        return false;
-    }
 
 };
 
