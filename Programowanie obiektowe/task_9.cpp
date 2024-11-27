@@ -66,14 +66,35 @@ public:
         ++count;
     }
 
-    T pop()
+    T pop()override
     {
         if (isEmpty())
         {
             throw std::out_of_range("Queue is empty");
         }
+
+        Node<T> *temp = head;   
+        T value = temp->data;  
+        head = head->next;    
+        delete temp;         
+        --count;
+
+        if (isEmpty())
+        {
+            tail = nullptr;
+        } 
+        return value;
     }
 
+    bool isEmpty()override
+    {
+        return head == nullptr;
+    }
+
+    size_t size() const override
+    {
+        return count;
+    }
 
 };
 
