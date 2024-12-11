@@ -1,71 +1,38 @@
 #include <iostream>
 #include <thread>
 #include <vector>
-#include <cmath>
 
-class IfPrime
-{
+class RaceConditionExample {
 public:
-    IfPrime(unsigned int threads)
-    {
-        this->threads = threads;
-        this->isPrime = true;
-    } 
+    RaceConditionExample() : counter(0) {}
 
-    bool check(unsigned int n) {
-        /* Uruchamiamy wątki */
-        std::vector<std::thread> threads;
-
-        for (int i = 0; i < this->threads; i++)
-        {
-            if (n == 1) return false;
-            if (n ==2) return false;
-            const unsigned int limit =sqrt(n);
-            unsigned int range = limit / this->threads;
-
-            unsigned int from = i*range;
-            unsigned int to = (i + 1)*range;
-            threads.push_back(std::thread(&IfPrime::threadFunction, this, from, to));
+    void incrementCounter() {
+        for (int i = 0; i < 1000; ++i) {
+            ++counter;
         }
-        for (int i = 0; i < this->threads; i++)
-        {
-            threads[i].join();
-        }
+    }
 
-        return false;
+    int getCounter() const {
+        return counter;
     }
 
 private:
-    void threadFunction(unsigned int from, unsigned int to) {
-        /*
-        if (n == 1) return false;
-
-        const unsigned int limit = sqrt(n);
-        for (unsigned int i = 2; i <= limit; i++)
-        {
-            if (n % i == 0)
-                return false;
-        }
-
-        return true;
-        */
-    }
-
-    unsigned int threads;
-    volatile bool isPrime;
+    int counter;
 };
 
 int main() {
-    unsigned int hwThreads = std::thread::hardware_concurrency();
-    hwThreads = hwThreads ? hwThreads : 1;
-    IfPrime p(hwThreads);
+    RaceConditionExample example;
+    std::vector<std::thread> threads;
 
-    unsigned int n = 4;
-    if (p.check(n))  {
-        std::cout << "Liczba " << n << " jest pierwsza" << std::endl;
-    } else {
-        std::cout << "Liczba " << n << " nie jest pierwsza" << std::endl;
+    for (int i = 0; i < 10; ++i) {
+        threads.emplace_back(&RaceConditionExample::incrementCounter, &example);
     }
+
+    for (auto& thread : threads) {
+        thread.join();
+    }
+
+    std::cout << "Final counter value: " << example.getCounter() << std::endl;
 
     return 0;
 }
