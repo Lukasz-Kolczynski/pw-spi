@@ -1,3 +1,8 @@
+/*
+sudo -i -u postgres
+psql
+*/
+
 CREATE TABLE account (
     account_id SERIAL PRIMARY KEY,
     first_name VARCHAR(50) NOT NULL CHECK (first_name !~ '\\s'), 
@@ -33,3 +38,51 @@ CREATE RECURSIVE VIEW employee_hierarchy (employee_id, employee_name, manager_id
 
 
 SELECT * FROM employee_hierarchy ORDER BY level, employee_name;
+
+
+CREATE TABLE accounts (
+    account_id SERIAL PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    balance NUMERIC(10, 2) DEFAULT 0,
+    is_active BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO accounts (username, email, balance, is_active, created_at)
+VALUES
+('john_doe','john.doe@example.com', 100.00, TRUE, CURRENT_TIMESTAMP),
+('jane_doe','jane.doe@example.com', 0, TRUE, CURRENT_TIMESTAMP),
+('inactive_user','inactive.user.doe@example.com', 50.00, FALSE, CURRENT_TIMESTAMP),
+('active_user','active.user@example.com', 200.00, TRUE, CURRENT_TIMESTAMP),
+('zero_balance','zero.balance@example.com', 0, TRUE, CURRENT_TIMESTAMP);
+
+
+CREATE VIEW editable_accounts AS
+SELECT account_id, username, email, balance, is_active
+FROM accounts
+WHERE is_active = TRUE AND balance > 0
+WITH LOCAL CHECK OPTION;
+
+CREATE VIEW readonly_accounts AS
+SELECT account_id, username, email, balance, is_active
+FROM accounts
+WHERE balance = 0;
+
+CREATE MATERIALIZED VIEW materialized_accounts AS
+SELECT account_id, username, email, balance, is_active, created_at
+FROM editable_accounts
+WHERE is_active = TRUE AND balance > 50
+WITH DATA;
+
+UPDATE editable_accounts
+SET balance = balance - 50
+WHERE username = 'john_doe';
+
+UPDATE editable_accounts
+SET balance = 10
+WHERE username = 'john_doe';
+
+UPDATE readonly_accounts
+SET balance = 10
+WHERE username = 'jane_doe';
