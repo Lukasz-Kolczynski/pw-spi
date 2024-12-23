@@ -12,6 +12,28 @@ public:
         std::cout << "This is Sword" << std::endl;
     }
 };
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build C++",
+            "type": "shell",
+            "command": "g++",
+            "args": [
+                "-g",
+                "${file}",
+                "-o",
+                "${fileDirname}/a.out"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": ["$gcc"],
+            "detail": "Generated task for building C++ program"
+        }
+    ]
+}
 
 class ItemHammer : public Item {
 public:
