@@ -86,3 +86,12 @@ WHERE username = 'john_doe';
 UPDATE readonly_accounts
 SET balance = 10
 WHERE username = 'jane_doe';
+
+
+
+CREATE OR REPLACE FUNCTION calculate_rectangle_area(length NUMERIC, width NUMERIC)
+RETURNS NUMERIC AS $$
+BEGIN
+    RETURN length * width;
+END;
+$$ LANGUAGE plpgsql;
