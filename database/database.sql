@@ -100,6 +100,6 @@ $$ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION count_character_occurrences(input_txt TEXT, characterr TEXT)
 RETURNS INTEGER AS $$
 BEGIN
-    RETURN LENGTH(input_txt) - LENGTH(REPLACE(input_txt, characterds, ''));
+    RETURN LENGTH(input_txt) - LENGTH(REPLACE(input_txt, characterr, ''));
 END;
 $$ LANGUAGE plpgsql;
