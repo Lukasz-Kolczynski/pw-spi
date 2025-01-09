@@ -103,3 +103,22 @@ BEGIN
     RETURN LENGTH(input_txt) - LENGTH(REPLACE(input_txt, characterr, ''));
 END;
 $$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE VIEW user_view AS
+SELECT id, username, email FROM users;
+
+CREATE OR REPLACE FUNCTION handle_view_changes()
+RETURN TRIGGER AS $$
+BEGIN
+    IF TG_OP = 'INSERT' THEN
+        INSERT INTO users (username,email) VALUES (NEW.username, NEW.email);
+    END IF;
+    RETURN NULL;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER instead_of_trigger
+INSTEAD OF INSERT
+ON user_view
+FOR EACH ROW
+EXECUTE FUNCTION handle_view_changes();
