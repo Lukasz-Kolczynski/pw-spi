@@ -37,7 +37,7 @@ public:
         std::string line;
         while (std::getline(file, line))
         {
-        
+         
         }
         
     }
