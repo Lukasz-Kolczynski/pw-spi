@@ -28,7 +28,9 @@ Vector2D(T _a, T _b) : a(_a), b(_b)
 
 }
 
-
+friend std::ostream& operator <<( const std::ostream& out, const Vector2D & vec);
+    os << "Pierwsza składowa: " << vec.a << "Druga składowa: " << vec.b << std::endl;
+    return os;
 };
 
 template <typename T>
@@ -43,7 +45,10 @@ Vector3D(T _c) : c(_c)
 
 }
 
-
+friend std::ostream& operator <<( const std::ostream& out, const Vector3D & vec);
+     os << "Pierwsza składowa: " << vec.a << "Druga składowa: " << vec.b << "Trzecia składowa: " << vec.c << std::endl;
+     return os;
+    
 };
 
 int main()
