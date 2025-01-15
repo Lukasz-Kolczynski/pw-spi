@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cmath>
 #include <stdexcept>
-
+#include <math.h>
 
 template <typename T>
 class Vector 
@@ -28,8 +28,24 @@ Vector2D(T _a, T _b) : a(_a), b(_b)
 
 }
 
-friend std::ostream& operator <<( const std::ostream& out, const Vector2D & vec);
-    os << "Pierwsza składowa: " << vec.a << "Druga składowa: " << vec.b << std::endl;
+virtual double length() override
+{
+    double a_pow = pow(a,2);
+    double b_pow = pow(b,2);
+    double result = sqrt(a_pow + b_pow);
+    return result;
+}
+
+virtual void normalize() override
+{
+    double length_of_vec = length();
+    double a_vec = a / length_of_vec;
+    double b_vec = b / length_of_vec;
+}
+
+
+friend std::ostream& operator <<( const std::ostream& os, const Vector2D & vec);
+    os << "Pierwsza składowa: " << vec._a << "Druga składowa: " << vec._b << std::endl;
     return os;
 };
 
@@ -40,13 +56,13 @@ private:
 T c;
 
 public:
-Vector3D(T _c) : c(_c) 
+Vector3D(T _a, T _b, T _c) : Vector2D<T>(_a, _b), c(_c) 
 {
 
 }
 
-friend std::ostream& operator <<( const std::ostream& out, const Vector3D & vec);
-     os << "Pierwsza składowa: " << vec.a << "Druga składowa: " << vec.b << "Trzecia składowa: " << vec.c << std::endl;
+friend std::ostream& operator <<( const std::ostream& os, const Vector3D & vec);
+     os << "Pierwsza składowa: " << vec._a << "Druga składowa: " << vec._b << "Trzecia składowa: " << vec._c << std::endl;
      return os;
     
 };
