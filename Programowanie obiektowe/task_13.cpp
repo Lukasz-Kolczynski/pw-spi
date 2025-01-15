@@ -45,10 +45,10 @@ virtual void normalize() override
     b = b_vec;
 }
 
-
-friend std::ostream& operator <<(std::ostream& out, const Vector2D & vec);
+friend std::ostream& operator <<(std::ostream& out, const Vector2D<T> & vec) {
     out << "Pierwsza składowa: " << vec._a << "Druga składowa: " << vec._b << std::endl;
     return out;
+}
 };
 
 template <typename T>
@@ -63,10 +63,10 @@ Vector3D(T _a, T _b, T _c) : Vector2D<T>(_a, _b), c(_c)
 
 }
 
-friend std::ostream& operator <<(std::ostream& out, const Vector3D & vec);
+friend std::ostream& operator <<(std::ostream& out, const Vector3D<T> & vec){
      out << "Pierwsza składowa: " << vec._a << "Druga składowa: " << vec._b << "Trzecia składowa: " << vec._c << std::endl;
      return out;
-    
+}
 };
 
 int main()
