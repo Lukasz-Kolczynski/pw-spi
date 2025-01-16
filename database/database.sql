@@ -218,7 +218,7 @@ BEGIN
     IF available_stock >= quantity THEN
         RETURN TRUE;
     ELSE
-        RETURN FALSE
+        RETURN FALSE;
     END IF;
 END;
 $$ LANGUAGE plpgsql;
