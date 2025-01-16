@@ -193,9 +193,32 @@ CREATE VIEW inventory_status AS
 SELECT 
     id AS product_id,
     name AS product_name,
-    stock AS stock_quantity
+    stock,
+    stock * price AS total_value
 FROM products;
 
 INSERT INTO products(name, stock, price)
+VALUES
+    ('mleko', 5, 5.99);
+
+DELETE FROM products WHERE name = 'mleko';
 
 
+CREATE OR REPLACE FUNCTION check_availability(product_id INT, quantity INT)
+RETURNS BOOLEAN AS $$
+DECLARE
+    available_stock INT;
+BEGIN 
+
+    SELECT stock INTO available_stock
+    FROM products
+    WHERE id = product_id;
+
+
+    IF available_stock >= quantity THEN
+        RETURN TRUE;
+    ELSE
+        RETURN FALSE
+    END IF;
+END;
+$$ LANGUAGE plpgsql;
