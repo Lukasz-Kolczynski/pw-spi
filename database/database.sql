@@ -197,9 +197,12 @@ SELECT
     stock * price AS total_value
 FROM products;
 
-INSERT INTO products(name, stock, price)
+INSERT INTO products (name, price, stock)
 VALUES
-    ('mleko', 5, 5.99);
+    ('Mleko', 2.50, 100),
+    ('Chleb', 1.80, 150),
+    ('Jajka', 3.20, 200);
+
 
 DELETE FROM products WHERE name = 'mleko';
 
@@ -222,3 +225,80 @@ BEGIN
     END IF;
 END;
 $$ LANGUAGE plpgsql;
+
+=============================================
+
+CREATE TABLE users(
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(255) UNIQUE NOT NULL,
+    email TEXT NOT NULL,
+    is_active BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE VIEW active_users AS
+SELECT
+    id AS user_id,
+    username AS user_name,
+    email AS user_email
+FROM users
+WHERE is_active = TRUE;
+
+CREATE OR REPLACE FUNCTION validate_email(email TEXT)
+RETURNS BOOLEAN AS $$
+BEGIN
+    IF email LIKE '%@%.%' THEN
+        RETURN TRUE;
+    ELSE
+        RETURN FALSE;
+    END IF;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE PROCEDURE register_user(username VARCHAR(255), email TEXT)
+LANGUAGE plpgsql AS $$
+BEGIN
+    IF validate_email(email) THEN
+        INSERT INTO users (username, email, is_active)
+        VALUES (username, email, TRUE);
+    ELSE
+        RAISE EXCEPTION 'Invalid email format';
+    END IF;
+END;
+$$;
+
+CALL register_user('john_doe', 'john.doeexample.com'); -- invalid insert email
+
+CALL register_user('john_doe', 'john.doe@example.com'); -- Insert complete
+
+
+========================================
+
+CREATE TABLE sales (
+    id SERIAL PRIMARY KEY,
+    product_id INT REFERENCES products(id),
+    quantity INT NOT NULL CHECK (quantity > 0),
+    sale_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE VIEW monthly_sales_summary
+SELECT 
+    EXTRACT(MONTH FROM sale_date) AS month,
+    s.product_id,
+    p.name AS product_name,
+    SUM(s.quantity) AS total_sales
+    FROM sales s
+    JOIN products p ON s.product_id = p.id
+    GROUP BY EXTTRACT(MONTH FROM sale_date), s.product_id, p.name;
+
+
+INSERT INTO sales (product_id, quantity, sale_date)
+VALUES
+    (1, 50, '2025-01-10'),
+    (2, 100, '2025-01-15'),
+    (3, 80, '2025-01-20'),
+    (1, 70, '2025-02-10'),
+    (2, 150, '2025-02-15'),
+    (3, 100, '2025-02-20');
+
+
