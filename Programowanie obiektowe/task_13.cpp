@@ -50,8 +50,7 @@ void normalize() override
 }
 
 friend std::ostream& operator <<(std::ostream& out, const Vector2D<T> & vec) {
-    out << "Pierwsza składowa: " << vec.a 
-    << "Druga składowa: " << vec.b << std::endl;
+    out <<"\n"<< "Pierwsza składowa: " << vec.a <<"\n"<< "Druga składowa: " << vec.b << std::endl;
     return out;
 }
 };
@@ -69,10 +68,8 @@ Vector3D(T _a, T _b, T _c) : Vector2D<T>(_a, _b), c(_c)
 }
 
 friend std::ostream& operator <<(std::ostream& out, const Vector3D<T> & vec){
-     out << "Pierwsza składowa: " << vec.a 
-     << "Druga składowa: " << vec.b 
-     << "Trzecia składowa: " << vec.c << std::endl;
-     return out;
+    out << "Pierwsza składowa: " << vec.a <<"\n"<< "Druga składowa: " << vec.b <<"\n"<< "Trzecia składowa: "  << vec.c << std::endl;
+    return out;
 }
 
 double length() const override
@@ -108,11 +105,11 @@ int main()
     try
     {
         Vector2D<double> vec2D(3.7, 4.2);
-        std::cout << "wektor 2D przed normalizacją: " << vec2D << std::endl;
-        std::cout << "Długość przed normalizacją: " << vec2D.length() << std::endl;
+        std::cout <<"\n"<< "wektor 2D przed normalizacją: " << vec2D << std::endl;
+        std::cout <<"\n" << "Długość przed normalizacją: " << vec2D.length() << std::endl;
 
         vec2D.normalize();
-        std::cout << "wektor 2D po normalizacji: " << vec2D << std::endl;
+        std::cout <<"\n"<< "wektor 2D po normalizacji: " << vec2D << std::endl;
         std::cout << "Długość po normalizacji: " << vec2D.length() << std::endl;
     }
     catch(const std::exception& e)
@@ -124,8 +121,8 @@ int main()
     try
     {
         Vector3D<int> vec3D(0 ,0, 0);
-        std::cout << "wektor 3D przed normalizacją: " << vec3D << std::endl;
-        std::cout << "Długość przed normalizacją: " << vec3D.length() << std::endl;
+        std::cout<<"\n" << "wektor 3D przed normalizacją: "<< "\n" << vec3D << std::endl;
+        std::cout << "Długość przed normalizacją: "<< vec3D.length() <<"\n"<< std::endl;
 
         vec3D.normalize();
         std::cout << "wektor 3D po normalizacji: " << vec3D << std::endl;
@@ -133,7 +130,7 @@ int main()
     }
     catch(const std::exception& e)
     {
-        std::cerr << "Błąd: " << e.what() << std::endl;
+        std::cerr << "Błąd: " << e.what() << "\n" << std::endl;
     }
     
 
