@@ -204,7 +204,7 @@ VALUES
     ('Jajka', 3.20, 200);
 
 
-DELETE FROM products WHERE name = 'mleko';
+DELETE FROM products WHERE name = 'mleko' AND stock = 5;
 
 
 CREATE OR REPLACE FUNCTION check_availability(product_id INT, quantity INT)
@@ -281,24 +281,127 @@ CREATE TABLE sales (
     sale_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE VIEW monthly_sales_summary
-SELECT 
+CREATE VIEW monthly_sales_summary AS
+SELECT
     EXTRACT(MONTH FROM sale_date) AS month,
     s.product_id,
     p.name AS product_name,
     SUM(s.quantity) AS total_sales
-    FROM sales s
-    JOIN products p ON s.product_id = p.id
-    GROUP BY EXTTRACT(MONTH FROM sale_date), s.product_id, p.name;
+FROM sales s
+JOIN products p ON s.product_id = p.id
+GROUP BY EXTRACT(MONTH FROM sale_date), s.product_id, p.name;
+
 
 
 INSERT INTO sales (product_id, quantity, sale_date)
 VALUES
-    (1, 50, '2025-01-10'),
-    (2, 100, '2025-01-15'),
-    (3, 80, '2025-01-20'),
-    (1, 70, '2025-02-10'),
-    (2, 150, '2025-02-15'),
-    (3, 100, '2025-02-20');
+    (5, 50, '2025-01-10'),
+    (6, 100, '2025-01-15'),
+    (7, 80, '2025-01-20'),
+    (5, 70, '2025-02-10'),
+    (6, 150, '2025-02-15'),
+    (7, 100, '2025-02-20');
 
+
+==============================
+/*
+### **Zadanie 5: Zarządzanie książkami w bibliotece**
+#### **Cel:**
+Utwórz system do zarządzania książkami i wypożyczeniami:
+- Przechowuj dane o książkach i wypożyczeniach.
+- Utwórz widok pokazujący dostępne książki.
+- Utwórz funkcję obliczającą czas wypożyczenia.
+- Utwórz procedurę obsługującą wypożyczenie książki.
+
+#### **Wymagania:**
+1. Utwórz tabelę books z kolumnami:
+   - id (klucz główny, numer seryjny),
+   - title (tytuł książki),
+   - author (autor),
+   - is_available (flaga dostępności: TRUE/FALSE).
+
+2. Utwórz tabelę borrowings z kolumnami:
+   - id (klucz główny, numer seryjny),
+   - book_id (klucz obcy do tabeli books),
+   - borrow_date (data wypożyczenia),
+   - return_date (data zwrotu).
+
+3. Utwórz widok available_books, który pokazuje wszystkie dostępne książki (is_available = TRUE).
+
+4. Utwórz funkcję calculate_borrow_days(borrow_date DATE, return_date DATE), która oblicza liczbę dni wypożyczenia.
+
+5. Utwórz procedurę borrow_book(book_id INT, borrow_date DATE), która:
+   - Sprawdza, czy książka jest dostępna.
+   - Ustawia is_available = FALSE w tabeli books.
+   - Dodaje wpis do tabeli borrowings.
+*/
+
+CREATE TABLE books(
+    id SERIAL PRIMARY KEY,
+    title VARCHAR (255) NOT NULL,
+    author VARCHAR (50) NOT NULL,
+    is_available BOOLEAN DEFAULT TRUE
+);
+
+INSERT INTO books (title, author, is_available)
+VALUES
+    ('Wiedźmin', 'Andrzej Sapkowski', TRUE),
+    ('Harry Potter', 'J.K. Rowling', TRUE),
+    ('Hobbit', 'J.R.R. Tolkien', TRUE);
+
+
+
+CREATE TABLE borrowings(
+    id SERIAL PRIMARY KEY,
+    book_id INT REFERENCES books(id),
+    borrow_date DATE NOT NULL,
+    return_date DATE
+);
+
+-- Wypożyczenie książki o ID = 1
+CALL borrow_book(1, '2025-01-15');
+
+
+
+CREATE VIEW available_books AS
+SELECT
+    id AS id_book,
+    title AS title_book,
+    author AS author_book
+FROM books
+WHERE is_available = TRUE;
+
+CREATE OR REPLACE FUNCTION calculate_borrow_days(borrow_date DATE, return_date DATE)
+RETURNS INT AS $$
+BEGIN
+    RETURN (return_date - borrow_date);
+END;
+$$ LANGUAGE plpgsql;
+
+UPDATE borrowings
+SET return_date = '2025-01-20'
+WHERE book_id = 1;
+
+SELECT calculate_borrow_days('2025-01-10', '2025-01-20');
+
+
+
+CREATE OR REPLACE PROCEDURE borrow_book(book_id INT, borrow_date DATE)
+LANGUAGE plpgsql AS $$
+BEGIN
+    IF EXISTS (SELECT 1 FROM books WHERE id = book_id AND is_available = TRUE) THEN
+        UPDATE books
+        SET is_available = FALSE
+        WHERE id = book_id;
+
+        INSERT INTO borrowings (book_id, borrow_date)
+        VALUES(book_id, borrow_date);
+
+    ELSE
+        RAISE EXCEPTION 'Książka o ID % jest już wypożyczona', book_id;
+    END IF;
+END;
+$$;
+
+CALL borrow_book(1, '2025-01-16');
 
