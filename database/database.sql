@@ -122,3 +122,103 @@ INSTEAD OF INSERT
 ON user_view
 FOR EACH ROW
 EXECUTE FUNCTION handle_view_changes();
+
+============================================================
+
+CREATE TABLE projects (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP 
+);
+
+CREATE TABLE tasks (
+    id SERIAL PRIMARY KEY,
+    project_id INT REFERENCES projects(id) ON DELETE CASCADE,
+    task_name VARCHAR(255) NOT NULL,
+    status VARCHAR(50) CHECK (status IN ('TO_DO', 'IN_PROGRESS', 'DONE')) NOT NULL
+);
+
+CREATE VIEW project_summary AS 
+SELECT 
+    p.id AS project_id,
+    p.name AS project_name,
+    COUNT(t.id) AS total_tasks,
+    COUNT(CASE WHEN t.status = 'DONE' THEN 1 END) AS completed
+FROM 
+    projects p 
+LEFT JOIN 
+    tasks t ON p.id = t.project_id
+GROUP BY 
+    p.id, p.name;
+
+
+CREATE PROCEDURE add_project_with_tasks(
+    project_name VARCHAR,
+    task_list TEXT[]
+)
+LANGUAGE plpgsql
+AS $$
+DECLARE 
+    project_id INT;
+    task_name TEXT;
+
+BEGIN 
+    INSERT INTO projects (name) VALUES (project_name)
+    RETURNING id INTO project_id;
+
+    FOREACH task_name IN ARRAY task_list LOOP 
+        INSERT INTO tasks (project_id, task_name, status)
+        VALUES (project_id, task_name, 'TODO');
+    END LOOP;
+END;
+$$;
+
+==============================================
+
+CREATE TABLE products(
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    stock INT NOT NULL CHECK (stock >= 0),
+    price NUMERIC(10,2) NOT NULL CHECK (price >=0)
+);
+
+CREATE TABLE orders(
+    id SERIAL PRIMARY KEY,
+    product_id INT REFERENCES products(id) ON DELETE CASCADE,
+    quantity INT NOT NULL CHECK (quantity > 0),
+    order_data TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE VIEW inventory_status AS 
+SELECT 
+    id AS product_id,
+    name AS product_name,
+    stock,
+    stock * price AS total_value
+FROM products;
+
+INSERT INTO products(name, stock, price)
+VALUES
+    ('mleko', 5, 5.99);
+
+DELETE FROM products WHERE name = 'mleko';
+
+
+CREATE OR REPLACE FUNCTION check_availability(product_id INT, quantity INT)
+RETURNS BOOLEAN AS $$
+DECLARE
+    available_stock INT;
+BEGIN 
+
+    SELECT stock INTO available_stock
+    FROM products
+    WHERE id = product_id;
+
+
+    IF available_stock >= quantity THEN
+        RETURN TRUE;
+    ELSE
+        RETURN FALSE;
+    END IF;
+END;
+$$ LANGUAGE plpgsql;
