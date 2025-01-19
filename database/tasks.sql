@@ -106,7 +106,13 @@ Utwórz system zarządzania magazynem, który:
    - `price` (cena produktu).
 */
 
-
+CREATE TABLE tasks_pw.products
+(
+   id SERIAL PRIMARY KEY,
+   name VARCHAR(255) NOT NULL,
+   stock INT NOT NULL CHECK(stock >= 0),
+   price NUMERIC(10,2) NOT NULL CHECK(price >=0)
+);
 
 /*
 2. Utwórz tabelę `orders` z kolumnami:
@@ -116,7 +122,13 @@ Utwórz system zarządzania magazynem, który:
    - `order_date` (data zamówienia).
 */
 
-
+CREATE TABLE tasks_pw.orders
+(
+   id SERIAL PRIMARY KEY,
+   product_id INT REFERENCES products(id) ON DELETE CASCADE,
+   quantity INT NOT NULL CHECK(quantity >= 0),
+   order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
 /*
 3. Utwórz widok `inventory_status`, który pokazuje:
@@ -126,12 +138,32 @@ Utwórz system zarządzania magazynem, który:
    - całkowitą wartość stanu magazynowego (`stock * price`).
 */
 
-
+CREATE VIEW tasks_pw.inventory_status AS
+SELECT
+   p.id AS product_id,
+   p.name AS product_name,
+   p.stock AS total_products,
+   stock * price AS total_value
+FROM products p;
 
 /*
 4. Utwórz funkcję `check_availability(product_id INT, quantity INT)`, która sprawdza, czy zamówiona ilość produktu jest dostępna w magazynie.
 */
 
+CREATE OR REPLACE FUNCTION tasks_pw.check_availability(product_id INT, quantity INT)
+RETURNS BOOLEAN AS $$
+DECLARE
+   available_stock INT;
+BEGIN
+   SELECT stock INTO available_stock FROM products WHERE id = project_id;
+
+IF available_stock < quantity THEN
+   RETURN TRUE;
+ELSE
+   RETURN FALSE;
+END IF;
+END;
+$$ LANGUAGE plpgsql;
 
 
 /*
@@ -141,6 +173,23 @@ Utwórz system zarządzania magazynem, który:
    - Aktualizuje ilość `stock` w tabeli `products`.
 */
 
+CREATE OR REPLACE PROCEDURE tasks_pw.place_order(product_id INT, quantity INT)
+LANGUAGE plpgsql AS $$
+BEGIN
+   IF NOT check_availability(product_id, quantity) THEN
+      RAISE EXCEPTION 'Produkt o ID % ma niewystarczajacy stan magazynowy', product_id;
+   END IF;
+
+   INSERT INTO orders (product_id, quantity)
+   VALUES(product_id, quantity);
+
+   UPDATE products
+   SET stock = stock - quantity
+   WHERE id = product_id;
+
+   RAISE NOTICE 'Zamówienie złożone pomyślnie dla produktu o ID %, ilość: %', product_id, quantity;
+END;
+$$;
 
 
 /*
