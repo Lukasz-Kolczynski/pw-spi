@@ -212,7 +212,14 @@ Utwórz system rejestracji użytkowników z:
    - `created_at` (data utworzenia konta).
 */
 
-
+CREATE TABLE tasks_pw.users
+(
+   id SERIAL PRIMARY KEY,
+   username VARCHAR(255) UNIQUE NOT NULL,
+   email TEXT NOT NULL,
+   is_active BOOLEAN DEFAULT TRUE,
+   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
 /*
 2. Utwórz widok `active_users`, który pokazuje:
@@ -221,14 +228,29 @@ Utwórz system rejestracji użytkowników z:
    - adres e-mail.
 */
 
-
+CREATE VIEW tasks_pw.active_users AS
+SELECT
+   id AS id_user,
+   username AS name_user,
+   email AS email_user
+FROM tasks_pw.users
+WHERE is_active = TRUE;
 
 /*
 3. Utwórz funkcję `validate_email(email TEXT)`, która:
    - Sprawdza, czy adres e-mail zawiera znak `@` i końcówkę domeny (np. `.com`).
 */
 
-
+CREATE OR REPLACE FUNCTION tasks_pw.validate_email(email TEXT)
+RETURNS BOOLEAN AS $$
+BEGIN
+   IF email LIKE '%@%.%' THEN
+      RETURN TRUE;
+   ELSE
+      RETURN FALSE;
+   END IF;
+END;
+$$ LANGUAGE plpgsql;
 
 /*
 4. Utwórz procedurę `register_user(username TEXT, email TEXT)`, która:
@@ -236,7 +258,17 @@ Utwórz system rejestracji użytkowników z:
    - Dodaje nowego użytkownika do tabeli `users` z `is_active` ustawionym na TRUE.
 */
 
-
+CREATE OR REPLACE PROCEDURE tasks_pw.register_user(username TEXT, email TEXT)
+LANGUAGE plpgsql AS $$
+BEGIN
+   IF validate_email(email) THEN
+      INSERT INTO users(username, email, is_active)
+      VALUES (username, email);
+   ELSE
+      RAISE EXCEPTION 'Invalid email address: %', email;
+   END IF;
+END;
+$$;
 
 /*
 ============================================================================
@@ -257,7 +289,13 @@ Utwórz system raportowania sprzedaży:
    - `sale_date` (data sprzedaży).
 */
 
-
+CREATE TABLE tasks_pw.sales
+(
+   id SERIAL PRIMARY KEY,
+   product_id INT REFERENCES products(id),
+   quantity INT CHECK(quantity > 0) NOT NULL,
+   sale_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
 /*
 2. Utwórz widok `monthly_sales_summary`, który pokazuje:
@@ -267,18 +305,58 @@ Utwórz system raportowania sprzedaży:
    - sumę sprzedanych jednostek w danym miesiącu.
 */
 
-
+CREATE VIEW tasks_pw.monthly_sales_summary AS
+SELECT
+   EXTRACT(MONTH FROM sale_date) AS Month,
+   product_id,
+   products.name AS name_product,
+   SUM(quantity) AS sale_total
+FROM tasks_pw.sales
+JOIN tasks_pw.products ON tasks_pw.sales.product_id = tasks_pw.products.id
+GROUP BY EXTRACT(MONTH FROM sale_date), product_id, products.name;
 
 /*
 3. Utwórz funkcję `get_total_sales(product_id INT)`, która oblicza całkowitą ilość sprzedanego produktu.
 */
 
+CREATE OR REPLACE FUNCTION tasks_pw.get_total_sales(product_id INT)
+ -- parametry podane w () przy tworzeniu funkcji/procedury to parametry ktore podaje uzytkownik podczas wywolania funkcji/procedury
+RETURN INT AS $$
+DECLARE
+   total_sales INT;
+BEGIN
+   SELECT SUM(quantity) INTO total_sales
+   FROM tasks_pw.sales
+   WHERE product_id = product_id;
 
+   RETURN total_sales;
+END;
+$$ LANGUAGE plpgsql;
 
 /*
 4. Utwórz procedurę `generate_sales_report(month INT, year INT)`, która generuje raport sprzedaży dla danego miesiąca i roku, zapisując go w nowej tabeli `sales_report`.
 */
 
+CREATE OR REPLACE PROCEDURE generate_sales_report(month INT, year INT)
+LANGUAGE plpgsql AS $$
+BEGIN
+   -- Usunięcie istniejących danych dla danego miesiąca i roku
+   DELETE FROM tasks_pw.sales_report WHERE month = generate_sales_report.month AND year = generate_sales_report.year;
+
+   -- Wstawienie nowego raportu
+   INSERT INTO tasks_pw.sales_report (month, year, product_id, product_name, total_quantity)
+   SELECT
+      month,
+      year,
+      products.id AS product_id,
+      products.name AS product_name,
+      SUM(sales.quantity) AS total_quantity
+   FROM tasks_pw.sales AS sales
+   JOIN tasks_pw.products AS products ON sales.product_id = products.id
+   WHERE EXTRACT(MONTH FROM sales.sale_date) = month AND EXTRACT(YEAR FROM sales.sale_date) = year
+   GROUP BY products.id, products.name;
+END;
+$$;
 
 
 /*
