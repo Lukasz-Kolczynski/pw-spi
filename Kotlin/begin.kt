@@ -3,6 +3,7 @@ fun main() {
     strFunc()
     mathFunc()
     repeatFunc()
+    ArrayFunc()
 }
 
 // val - immutable
@@ -43,4 +44,10 @@ fun repeatFunc() {
     {
         println("Hello")
     }
+}
+
+fun ArrayFunc()
+{
+    val mix = arrayOf("cat", 1, 2)
+    println("Zawartość tablicy; ${mix.contentToString()}") // contentToString() zmienia int na string wyłącznie do wyświetlenia danych
 }
