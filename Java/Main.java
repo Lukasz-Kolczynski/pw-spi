@@ -39,6 +39,5 @@ public class Main
 	    System.out.println(Float.MAX_VALUE);
 	    System.out.println(Float.MAX_VALUE);
 
-	    
 	}
 }
