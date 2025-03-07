@@ -26,6 +26,7 @@
 
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
 
 def load_file(file_path):
     try:
@@ -37,17 +38,14 @@ def load_file(file_path):
             df = pd.read_csv(file_path, sep = '\t', header = None)
     return df
 
-# Nowe nazwy kolumn
-cols = ["timestamp", "id", "dc1", "dc2", "dyskretne", "names", "wczwo1", "wczwo2", "wczwo_plus", "wczwo_minus", "x", "y", "z"]
 
 def check_duplicates(file_path):
-    # Ładowanie danych
     df = load_file(file_path)
+    cols = ["timestamp", "id", "dc1", "dc2", "dyskretne", "names", "wczwo1", "wczwo2", "wczwo_plus", "wczwo_minus", "x", "y", "z"]
 
-    # Zmiana nazw kolumn
+    df = load_file('/home/u335775/Pulpit/Łukasz Kolczyński/pw-spi/python/data_01_with_redundant.dat')
     df.columns = cols
 
-    # Sprawdzanie duplikatów
     duplicate_rows = df[df.duplicated()]
     duplicate_count = len(duplicate_rows)
 
@@ -57,13 +55,10 @@ def check_duplicates(file_path):
         print(duplicate_rows)
     else:
         print("Brak zduplikowanych wierszy.")
-    
     return duplicate_count
 
-# Wywołanie funkcji
-duplicate_count = check_duplicates('/home/u335775/Pulpit/Łukasz Kolczyński/pw-spi/python/data_01_with_redundant.dat')
 
-# Jeśli chcesz dodatkowo zwrócić liczbę zduplikowanych wierszy, możesz to zrobić
-print(f"Liczba zduplikowanych wierszy: {duplicate_count}")
+file_path = '/home/u335775/Pulpit/Łukasz Kolczyński/pw-spi/python/data_01_with_redundant.dat'
+check_duplicates(file_path)
 
 
