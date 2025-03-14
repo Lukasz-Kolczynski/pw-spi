@@ -101,9 +101,9 @@ def sort_data_in_directory(working_directory):
 
 def main():
     begin = timer()
-    #generate_data("data.dat", 10, 20)
-    #divide_file("data.dat", 4, "/home/u335775/Pulpit/Łukasz Kolczyński/pw-spi/python/data_file")
-    sort_data_in_directory("/home/u335775/Pulpit/Łukasz Kolczyński/pw-spi/python/data_file")
+    ###generate_data("data.dat", 10, 20) #generuje plik z 10-cioma randomowymi liczbami w zakresie 0-20
+    ##divide_file("data.dat", 4, "/home/u335775/Pulpit/Łukasz Kolczyński/pw-spi/python/data_file")   #dzieli wygenerowany plik na mniejsze pliki po 4 liczby w każdym
+    #sort_data_in_directory("/home/u335775/Pulpit/Łukasz Kolczyński/pw-spi/python/data_file")  #sortuje liczby rosnąco w każdym pliku
     end = timer()
     print(f"Time: (end - begin) s")
 
