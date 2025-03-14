@@ -142,7 +142,7 @@ def main():
     #sort_data_in_directory("/home/u335775/Pulpit/Łukasz Kolczyński/pw-spi/python/data_file")  #sortuje liczby rosnąco w każdym pliku
     merge_two_file("/home/u335775/Pulpit/Łukasz Kolczyński/pw-spi/python/data_file", "data_1.dat", "data_2.dat", "data_1_2.dat")
     end = timer()
-    print(f"Time: (end - begin) s")
+    print(f"Time: {end - begin} s")
 
 if __name__ == "__main__":
     main()
