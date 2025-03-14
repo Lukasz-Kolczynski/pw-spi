@@ -81,11 +81,29 @@ def divide_file(file_path, size, working_directory):
                     counter += 1
 
 
+def sort_data_in_directory(working_directory):
+    file_paths = []
+    for f in os.listdir(working_directory):
+        file_path = os.path.join(working_directory, f)
+
+        if not os.path.isdir(file_path):
+            file_paths.append(file_path)
+
+    for file_path in file_paths:
+        with open(file_path, "r") as source_file:
+            data = [int(line.strip()) for line in source_file]
+        data.sort()
+
+        with open(file_path, "w") as result_file:
+            for i in range(len(data)-1):
+                result_file.write(str(data[i])+ "\n")
+            result_file.write(str(data[-1]))
 
 def main():
     begin = timer()
     #generate_data("data.dat", 10, 20)
-    divide_file("data.dat", 4, "/home/u335775/Pulpit/Łukasz Kolczyński/pw-spi/python")
+    #divide_file("data.dat", 4, "/home/u335775/Pulpit/Łukasz Kolczyński/pw-spi/python/data_file")
+    sort_data_in_directory("/home/u335775/Pulpit/Łukasz Kolczyński/pw-spi/python/data_file")
     end = timer()
     print(f"Time: (end - begin) s")
 
