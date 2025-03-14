@@ -198,8 +198,63 @@ class TextLinesInMemory(TextLines):
         else:
             self.__write_line_at_index(text, line_number)
         pass
+    def dump(self):
+        return self.__lines
+
+
+class IdentifiedTextLines:
+    def __init__(self):
+        self.__lines = TextLinesInMemory()
+        self.__ids = {}
+    def write_line(self, text, identifier):
+        if identifier not in self.__ids:
+            self.__ids[identifier] = []
+        self.__lines.write_Line((text))
+        line_number = self.__lines.get_number_of_lines() - 1
+        self.__ids[identifier].append(line_number)
+
+    # def test(self):
+    #     print(self.__ids)
+    #     print(self.__lines.__lines)
+
+    def read_line(self, identifier):
+        if identifier not in self.__ids:
+            raise KeyError("Unknown identifier")
+        result = []
+        for idx in self.__ids[identifier]:
+            line = self.__lines.read_line(idx)
+            result.append(line)
+        return result
+    def delete_line(self, identifier):
+        if identifier not in self.__ids:
+            raise KeyError("Unknown identifier")
+        for idx in self.__ids[identifier]:
+            self.__lines.delete_line(idx)
+        del self.__ids[identifier]
+
+    def get_identifiers(self):
+        return [key for key in self.__ids]
+
+    def dump(self):
+        return self.__lines.dump()
+    def test(self):
+        number_of_lines = self.__lines.get_number_of_lines()
+        print(number_of_lines)
+def test_IdentifiedTextLines():
+    titl = IdentifiedTextLines()
+    titl.write_line("foo 1", "f1")
+    titl.write_line("bar 1", "b1")
+    titl.write_line("foo 2", "f1")
+    titl.write_line("bar 2", "b1")
+    titl.write_line("foo 3", "f1")
+
+    lines = titl.read_line(("f1"))
+
+
+    print(titl.r)
+
 
 def main():
-    tlim = TextLinesInMemory()
+    test_IdentifiedTextLines()
 if __name__ == "__main__":
     main()
