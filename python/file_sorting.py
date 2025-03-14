@@ -1,0 +1,93 @@
+# 7,3,5,2,1,8,3,4,6 ... (bardzo duży zbiór danych)
+
+# Etap I:
+
+# Dzielimy ten zbiór na mniejsze zbiory
+
+# plik 1: 7,3,5
+# plik 2: 2,1,8
+# plik 3: 3,4,6
+
+# Etap II:
+
+# Wczytujemy pliki pojedyńczo  
+# sortuje go 
+# zapisuje spowrotem do pliku
+# read(plik1)->sort->plik 1: 3 , 5 ,7
+# read(plik2)->sort->plik 2: 1, 2 ,8
+# read(plik3)->sort->plik 3: 3 , 4 ,6
+
+# Etap III:
+
+# Dziel te pliki na pary np łącze plik 1 i 2 powstaje plik_1_2
+
+# Powtarzam ten proces wielkortonie , mam zbiór plików grupuje łącze je (wielokrotny proces) aż otrzymam jeden plik
+
+        
+# plik 1: 3 , 5 ,7
+#         ^
+#         |
+# plik 2: 1, 2 ,8
+#         ^
+#         |
+
+
+# łapka na pierwszy i drugi plik na pierwsa liczbe wstawiam mniejsza , łapke przesuwam w pliku z którego pochodzi pierwsza liczba i porównuje ją z łapką załączną na pliku gdzie łapki nie zmieniłem 
+# 1,3->1 1 2,3->3  2 8,3-> 3 (!! tutaj liczba w pliku 1 jest mniejsza wiec biore liczbe z pliku 1 i na dole w pliku 2 porównuje liczby(tam łapka stoi w miejscy )) 5,8-> 5 7,8->7 zostało 8 koniec
+# plik_1_2: 1,2,3,5,7,8
+
+#===================================================================
+
+import os
+import random
+from timeit import default_timer as timer
+
+
+def generate_data(file_path, size, max_value):
+    with open(file_path, "w") as file_out:
+        for _ in range(size-1):
+            number = random.randint(0, max_value)
+            file_out.write(str(number) + "\n")
+        number = random.randint(0, max_value)
+        file_out.write(str(number))
+
+
+def divide_file(file_path, size, working_directory):
+    with open(file_path, "r") as file_data:
+        file_number = 1
+        end = False
+
+        while not end:
+            file_out_name = f"data_{file_number}.dat"
+            file_out_path = os.path.join(working_directory, file_out_name)
+            file_number += 1
+            counter = 0
+
+            line = file_data.readline().strip()
+            if not line:
+                break
+
+            with open(file_out_path, "w") as file_out:
+                file_out.write(line)
+                counter += 1
+
+                while counter < size:
+                    line = file_data.readline().strip()
+                    if not line:
+                        end = True
+                        break
+
+                    file_out.write("\n" + line)
+                    counter += 1
+
+
+
+def main():
+    begin = timer()
+    #generate_data("data.dat", 10, 20)
+    divide_file("data.dat", 4, "/home/u335775/Pulpit/Łukasz Kolczyński/pw-spi/python")
+    end = timer()
+    print(f"Time: (end - begin) s")
+
+if __name__ == "__main__":
+    main()
