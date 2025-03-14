@@ -131,7 +131,8 @@ def merge_two_file(working_directory, file_in_1_name, file_in_2_name, file_out_n
                     else:
                         break
 
-                    file_out.write("\n")
+                    if line_1 or line_2:
+                        file_out.write("\n")
 
 
 def main():
