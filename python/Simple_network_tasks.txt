@@ -1,0 +1,185 @@
+Jako odpowiedzi na poniższe pytania podaj polecenia które wywołałeś oraz wartość jeżeli jest o nią pytanie.
+
+
+
+=====================================================================
+1.Adres MAC routera, który łączy sieć pracowni z internetem: 
+=====================================================================
+u335775@user-Precision-3460:~$ arp -a
+_gateway (192.168.48.1) w e0:23:ff:ce:f7:0f [ether] na enp0s31f6
+
+=====================================================================
+2.Ping wszystkich urządzeń jednocześnie w podsieci 192.168.48.0/26:
+=====================================================================
+u335775@user-Precision-3460:~$ nmap -sn 192.168.48.0/26
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2025-03-20 16:45 CET
+Nmap scan report for 192.168.48.2
+Host is up (0.0018s latency).
+Nmap scan report for 192.168.48.11
+Host is up (0.00074s latency).
+Nmap scan report for 192.168.48.12
+Host is up (0.00064s latency).
+Nmap scan report for 192.168.48.13
+Host is up (0.0012s latency).
+Nmap scan report for user-Precision-3460 (192.168.48.15)
+Host is up (0.000070s latency).
+Nmap scan report for 192.168.48.17
+Host is up (0.00080s latency).
+Nmap scan report for 192.168.48.19
+Host is up (0.00049s latency).
+Nmap scan report for 192.168.48.20
+Host is up (0.00084s latency).
+Nmap scan report for 192.168.48.21
+Host is up (0.00079s latency).
+Nmap scan report for 192.168.48.22
+Host is up (0.00035s latency).
+Nmap scan report for 192.168.48.27
+Host is up (0.0011s latency).
+Nmap scan report for 192.168.48.28
+Host is up (0.00088s latency).
+Nmap scan report for 192.168.48.41
+Host is up (0.00050s latency).
+Nmap scan report for 192.168.48.44
+Host is up (0.00071s latency).
+Nmap scan report for 192.168.48.45
+Host is up (0.0011s latency).
+Nmap scan report for 192.168.48.46
+Host is up (0.0010s latency).
+Nmap scan report for 192.168.48.47
+Host is up (0.00082s latency).
+Nmap done: 64 IP addresses (17 hosts up) scanned in 1.43 seconds
+
+
+u335775@user-Precision-3460:~$ ping -b 192.168.48.63
+WARNING: pinging broadcast address
+PING 192.168.48.63 (192.168.48.63) 56(84) bytes of data.
+^C
+--- 192.168.48.63 ping statistics ---
+17 packets transmitted, 0 received, 100% packet loss, time 16373ms
+
+=====================================================================
+3.Przeskanuj porty, które są otwarte na interfejsie lo (loopback):
+=====================================================================
+u335775@user-Precision-3460:~$ nmap -p- 127.0.0.1
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2025-03-20 16:47 CET
+Nmap scan report for localhost (127.0.0.1)
+Host is up (0.000024s latency).
+Not shown: 65528 closed tcp ports (conn-refused)
+PORT      STATE SERVICE
+80/tcp    open  http
+631/tcp   open  ipp
+2222/tcp  open  EtherNetIP-1
+5432/tcp  open  postgresql
+33759/tcp open  unknown
+35589/tcp open  unknown
+42635/tcp open  unknown
+
+Nmap done: 1 IP address (1 host up) scanned in 0.39 seconds
+
+=====================================================================
+4.Adres serwera DNS, który jest ustawiony w systemie:
+=====================================================================
+u335775@user-Precision-3460:~$ cat /etc/resolv.conf 
+
+nameserver 127.0.0.53
+options edns0 trust-ad
+search .
+
+=====================================================================
+5.Zmień adresy MAC karty sieciowej na 00:11:22:33:44:55
+=====================================================================
+u335775@user-Precision-3460:~$ ip a
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host noprefixroute 
+       valid_lft forever preferred_lft forever
+2: enp0s31f6: <BROADCAST,MULTICAST> mtu 1500 qdisc fq_codel state DOWN group default qlen 1000
+    link/ether cc:96:e5:0c:8e:1f brd ff:ff:ff:ff:ff:ff
+u335775@user-Precision-3460:~$ sudo ip link set dev enp0s31f6 down
+[sudo] hasło użytkownika u335775: 
+u335775@user-Precision-3460:~$ sudo ip link set dev enp0s31f6 address 00:11:22:33:44:98
+u335775@user-Precision-3460:~$ sudo ip link set dev enp0s31f6 up
+u335775@user-Precision-3460:~$ ip a
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host noprefixroute 
+       valid_lft forever preferred_lft forever
+2: enp0s31f6: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 00:11:22:33:44:98 brd ff:ff:ff:ff:ff:ff permaddr cc:96:e5:0c:8e:1f
+    inet6 fe80::250d:42b1:b7af:61f7/64 scope link tentative noprefixroute 
+       valid_lft forever preferred_lft forever
+u335775@user-Precision-3460:~$ 
+
+=====================================================================
+6.Podaj rekord DNS dla poczty e-mail adresu kosmatka.pl używając serwer DNS 8.8.8.8 (bez edycji globalnych ustawień serwerów DNS):
+=====================================================================
+u335775@user-Precision-3460:~$ dig MX kosmatka.pl @8.8.8.8
+
+; <<>> DiG 9.18.28-0ubuntu0.24.04.1-Ubuntu <<>> MX kosmatka.pl @8.8.8.8
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 29670
+;; flags: qr rd ra; QUERY: 1, ANSWER: 2, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 512
+;; QUESTION SECTION:
+;kosmatka.pl.			IN	MX
+
+;; ANSWER SECTION:
+kosmatka.pl.		21167	IN	MX	10 mx1.privateemail.com.
+kosmatka.pl.		21167	IN	MX	10 mx2.privateemail.com.
+
+;; Query time: 7 msec
+;; SERVER: 8.8.8.8#53(8.8.8.8) (UDP)
+;; WHEN: Thu Mar 20 17:05:49 CET 2025
+;; MSG SIZE  rcvd: 96
+
+=====================================================================
+7.Podaj adres IPv6 adresu google.pl:
+=====================================================================
+u335775@user-Precision-3460:~$ dig AAAA google.pl +short
+2a00:1450:401b:80d::2003
+
+=====================================================================
+8.Podaj kiedy została zarejestrowana domena kosmatka.pl i do kiedy jest opłacona (gdzie można znaleźć listę domen, które wygasły dzisiejszego dnia?):
+=====================================================================
+whois kosmatka.pl
+
+=====================================================================
+9.Wypisz porty, które są otwarte w systemie wraz z numerem PID i nazwą programu:
+=====================================================================
+netstat -tulnp
+(Not all processes could be identified, non-owned process info
+ will not be shown, you would have to be root to see it all.)
+Active Internet connections (only servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name    
+tcp        0      0 127.0.0.1:5432          0.0.0.0:*               LISTEN      -                   
+tcp        0      0 127.0.0.54:53           0.0.0.0:*               LISTEN      -                   
+tcp        0      0 127.0.0.1:35589         0.0.0.0:*               LISTEN      7082/Code --standar 
+tcp        0      0 127.0.0.53:53           0.0.0.0:*               LISTEN      -                   
+tcp        0      0 127.0.0.1:631           0.0.0.0:*               LISTEN      -                   
+tcp6       0      0 :::80                   :::*                    LISTEN      -                   
+tcp6       0      0 ::1:631                 :::*                    LISTEN      -                   
+tcp6       0      0 :::2222                 :::*                    LISTEN      -                   
+tcp6       0      0 ::1:45625               :::*                    LISTEN      7570/java           
+tcp6       0      0 127.0.0.1:42635         :::*                    LISTEN      7570/java           
+tcp6       0      0 127.0.0.1:33759         :::*                    LISTEN      7570/java           
+udp        0      0 0.0.0.0:5353            0.0.0.0:*                           -                   
+udp        0      0 0.0.0.0:55851           0.0.0.0:*                           -                   
+udp        0      0 127.0.0.54:53           0.0.0.0:*                           -                   
+udp        0      0 127.0.0.53:53           0.0.0.0:*                           -                   
+udp6       0      0 :::35702                :::*                                -                   
+udp6       0      0 :::5353                 :::*                               
+
+=====================================================================
+10.Przez jakie routery przechodzą pakiety, które trafiają do serwera pw.plock.pl:
+=====================================================================
+u335775@user-Precision-3460:~$ traceroute pw.plock.pl
+traceroute to pw.plock.pl (148.81.247.250), 30 hops max, 60 byte packets
+ 1  _gateway (192.168.48.1)  0.449 ms  0.357 ms  0.343 ms
+ 2  148.81.247.250 (148.81.247.250)  0.822 ms  0.808 ms  0.796 ms
