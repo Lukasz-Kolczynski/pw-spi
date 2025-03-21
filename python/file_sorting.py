@@ -189,27 +189,79 @@ def merge_all_files(working_directory):
         number_of_files = len(files)
         iteration += 1
 
+def Counter_files(file_path_1, file_path_2):
+    def count_occurrences(file_path):
+        with open(file_path, "r") as file:
+            numbers = []
+            occurrences = {}
+            for line in file:
+                num = int(line.strip())
+                numbers.append(num)
+                if num in occurrences:
+                    occurrences[num] += 1
+                else:
+                    occurrences[num] = 1
+            return occurrences
+    
+    count_1 = count_occurrences(file_path_1)
+    count_2 = count_occurrences(file_path_2)
+    
+    print("Liczba wystąpień w pliku pierwotnym:")
+    for number, count in count_1.items():
+        print(f"{number}: {count}")
+    
+    print("\nLiczba wystąpień w pliku wynikowym:")
+    for number, count in count_2.items():
+        print(f"{number}: {count}")
+    
+    if count_1 == count_2:
+        print("\nWszystkie liczby występują tyle samo razy.")
+    else:
+        print("\nLiczby nie zgadzają się!")
+
+def sort_check(file_path):
+    with open(file_path, "r") as file:
+        numbers = []
+        for line in file:
+            numbers.append(int(line.strip()))
+    
+    is_sorted = True
+    for i in range(len(numbers) - 1):
+        if numbers[i] > numbers[i + 1]:
+            is_sorted = False
+            break
+    
+    if is_sorted:
+        print("Plik wynikowy jest poprawnie posortowany.")
+    else:
+        print("Plik wynikowy nie jest posortowany!")
+    
+
+
 def main():
-    begin = timer()
-    generate_data("data.dat", 10, 20) #generuje plik z x(miejsce po nazwie) randomowymi liczbami w zakresie y (ostatnie miejsce w () )
-    end = timer()
-    print(f"Generate time: {end - begin} s")
-    begin = timer()
-    divide_file("data.dat", 4 , "/home/u335775/Pulpit/Łukasz Kolczyński/pw-spi/python/data_file")   #dzieli wygenerowany plik na mniejsze pliki po z (cyfra przed ścieżką) liczb w każdym
-    end = timer()
-    print(f"Divide time: {end - begin} s")
-    begin = timer()
-    sort_data_in_directory("/home/u335775/Pulpit/Łukasz Kolczyński/pw-spi/python/data_file")  #sortuje liczby rosnąco w każdym pliku
-    end = timer()
-    print(f"Sort time: {end - begin} s")
-    ##begin = timer()
-    ##merge_two_file("/home/u335775/Pulpit/Łukasz Kolczyński/pw-spi/python/data_file", "data_1.dat", "data_2.dat", "data_1_2.dat") # laczy pliki ale juz nie trzeba tego uzywac
-    ##end = timer()
-    ##print(f"Merge time: {end - begin} s")
-    begin = timer()
-    merge_all_files("/home/u335775/Pulpit/Łukasz Kolczyński/pw-spi/python/data_file") # generuje posortowany plik z wcześniej utworzonych(podzielonych i posortowanych) i usuwa pozostałe podzielone
-    end = timer()
-    print(f"Merge and delete time: {end - begin} s")
+    # begin = timer()
+    # generate_data("data.dat", 10, 20) #generuje plik z x(miejsce po nazwie) randomowymi liczbami w zakresie y (ostatnie miejsce w () )
+    # end = timer()
+    # print(f"Generate time: {end - begin} s")
+    # begin = timer()
+    # divide_file("data.dat", 4 , "/home/u335775/Pulpit/Łukasz Kolczyński/pw-spi/python/data_file")   #dzieli wygenerowany plik na mniejsze pliki po z (cyfra przed ścieżką) liczb w każdym
+    # end = timer()
+    # print(f"Divide time: {end - begin} s")
+    # begin = timer()
+    # sort_data_in_directory("/home/u335775/Pulpit/Łukasz Kolczyński/pw-spi/python/data_file")  #sortuje liczby rosnąco w każdym pliku
+    # end = timer()
+    # print(f"Sort time: {end - begin} s")
+    # ##begin = timer()
+    # ##merge_two_file("/home/u335775/Pulpit/Łukasz Kolczyński/pw-spi/python/data_file", "data_1.dat", "data_2.dat", "data_1_2.dat") # laczy pliki ale juz nie trzeba tego uzywac
+    # ##end = timer()
+    # ##print(f"Merge time: {end - begin} s")
+    # begin = timer()
+    # merge_all_files("/home/u335775/Pulpit/Łukasz Kolczyński/pw-spi/python/data_file") # generuje posortowany plik z wcześniej utworzonych(podzielonych i posortowanych) i usuwa pozostałe podzielone
+    # end = timer()
+    # print(f"Merge and delete time: {end - begin} s")
+
+    Counter_files("/home/u335775/Pulpit/Łukasz Kolczyński/pw-spi/python/data_file/2_1.dat", "/home/u335775/Pulpit/Łukasz Kolczyński/pw-spi/data.dat") # sprawdza czy plik ktory generuje liczby ma tyle samo liczb(takich samych) co plik posortowany
+    sort_check("/home/u335775/Pulpit/Łukasz Kolczyński/pw-spi/python/data_file/2_1.dat") # sprawdza czy plik posortowany w data_file jest naprawde posortowany
 
 
 if __name__ == "__main__":
