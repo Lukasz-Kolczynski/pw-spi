@@ -118,9 +118,11 @@
         
 
 
-#====================================================
+# #====================================================
 
+import sqlite3
 from abc import ABC, abstractmethod
+from datetime import datetime
 
 #Abstract method
 class TextLines(ABC):
@@ -202,6 +204,97 @@ class TextLinesInMemory(TextLines):
         return self.__lines
 
 
+class TextLinesInDB(TextLines):
+    # public methods
+    def __init__(self, db_name = None):
+        if db_name == None:
+            timestamp = datetime.now().strftime('%Y%m%d%H%M%S')
+            self.__db_name = f"data_{timestamp}"
+        else:
+            self.__db_name = db_name
+        connection = sqlite3.connect(self.__db_name)
+
+        with open("/home/u335775/Pulpit/Łukasz Kolczyński/pw-spi/python/db.sql") as script:
+            connection.executescript(script.read())
+
+        connection.commit()
+        connection.close()
+    def get_number_of_lines(self):
+        sql = "SELECT COUNT(*) AS count FROM lines"
+        connection = sqlite3.connect(self.__db_name)
+        connection.row_factory = sqlite3.Row
+        cur = connection.cursor()
+
+        res = cur.execute(sql)
+        row = res.fetchone()
+        row = dict(row)
+
+        connection.close()
+        return row['count']
+
+    def read_line(self, line_number):
+        if line_number <= self.get_number_of_lines():
+            sql = "SELECT * FROM lines WHERE id=?"
+
+            con = sqlite3.connect(self.__db_name)
+            con.row_factory = sqlite3.Row
+            cur = con.cursor()
+            res = cur.execute(sql, (line_number, ))
+            row = res.fetchone()
+            row = dict(row)
+            print(row)
+            con.close()
+            return row["line"]
+    def delete_line(self, line_number):
+        if line_number >= 0 and line_number < self.get_number_of_lines():
+            self.__lines[line_number] = None
+        else:
+            raise IndexError("Line number out of range")
+    #BEGIN: Private methods
+    def __write_line_at_end(self, text):
+        if type(text) is not str:
+            raise TypeError("Text must be a string type")
+
+        sql = "INSERT INTO lines (line) VALUES (?)"
+        connection = sqlite3.connect((self.__db_name))
+        cur = connection.cursor()
+        res = cur.execute(sql, (text, ))
+        connection.commit()
+        connection.close()
+
+
+    def __write_line_at_index(self, text, line_number):
+
+        if type(text) is not str:
+            raise TypeError("Text must be a string type")
+        elif line_number < self.get_number_of_lines():
+            self.__lines[line_number] = None
+        else:
+            raise TypeError("Line number out of range")
+    #Progressive variant
+    def __write_line_at_index(self, text, line_number):
+
+        if type(text) is not str:
+            raise TypeError("Text must be a string type")
+        elif line_number >= 0 and line_number < self.get_number_of_lines():
+            sql = "UPDATE lines SET line=(?), mod=date('now') WHERE id=(?)"
+
+            con = sqlite3.connect(self.__db_name)
+            cur = con.cursor()
+            res = cur.execute(sql, (text, line_number))
+            con.commit()
+            con.close()
+
+    def write_Line(self, text, line_number=None):
+        if line_number == None:
+            self.__write_line_at_end(text)
+        else:
+            self.__write_line_at_index(text, line_number)
+        pass
+    def dump(self):
+        return self.__lines
+
+
 class IdentifiedTextLines:
     def __init__(self):
         self.__lines = TextLinesInMemory()
@@ -251,10 +344,21 @@ def test_IdentifiedTextLines():
     lines = titl.read_line(("f1"))
 
 
-    print(titl.r)
 
+
+def test_IdentifiedTexLinesinDB():
+    tlidb = TextLinesInDB("lines123_set.db")
+    print(tlidb.get_number_of_lines())
+    tlidb.write_Line("fdsfs")
+    tlidb.write_Line("fdsfs")
+    tlidb.write_Line("fdsfs")
+    tlidb.write_Line("fdsfs")
+    print(tlidb.get_number_of_lines())
+    print(tlidb.read_line(1))
+    tlidb.write_Line("ddd", 2)
+    print(tlidb.read_line(2))
 
 def main():
-    test_IdentifiedTextLines()
+    test_IdentifiedTexLinesinDB()
 if __name__ == "__main__":
     main()
