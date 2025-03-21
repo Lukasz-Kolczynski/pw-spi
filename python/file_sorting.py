@@ -45,9 +45,11 @@ from timeit import default_timer as timer
 
 def generate_data(file_path, size, max_value):
     with open(file_path, "w") as file_out:
-        for _ in range(size-1):
+        for i in range(size-1):
             number = random.randint(0, max_value)
             file_out.write(str(number) + "\n")
+            if i % 100_00 == 0:
+                print(f"{i} of {size}")
         number = random.randint(0, max_value)
         file_out.write(str(number))
 
@@ -79,6 +81,8 @@ def divide_file(file_path, size, working_directory):
 
                     file_out.write("\n" + line)
                     counter += 1
+            if file_number % 10 == 0:
+                print(f"{file_number} of {size}")
 
 def get_all_files_in_directory(working_directory):
     files = []
@@ -90,7 +94,8 @@ def get_all_files_in_directory(working_directory):
     return files
 def sort_data_in_directory(working_directory):
     files = get_all_files_in_directory(working_directory)
-
+    c = 1
+    number_of_files = len(files)
 
     for file in files:
         file_path = os.path.join(working_directory, file)
@@ -103,6 +108,9 @@ def sort_data_in_directory(working_directory):
             for i in range(len(data)-1):
                 result_file.write(str(data[i])+ "\n")
             result_file.write(str(data[-1]))
+        
+        if c % 10 == 0:
+            print(f"{c} of {number_of_files}")
 
 
 def merge_two_file(working_directory, file_in_1_name, file_in_2_name, file_out_name):
@@ -183,14 +191,26 @@ def merge_all_files(working_directory):
 
 def main():
     begin = timer()
-    ####generate_data("data.dat", 10, 20) #generuje plik z 10-cioma randomowymi liczbami w zakresie 0-20
-    ###divide_file("data.dat", 4, "/home/u335775/Pulpit/Łukasz Kolczyński/pw-spi/python/data_file")   #dzieli wygenerowany plik na mniejsze pliki po 4 liczby w każdym
-    ##sort_data_in_directory("/home/u335775/Pulpit/Łukasz Kolczyński/pw-spi/python/data_file")  #sortuje liczby rosnąco w każdym pliku
-    #merge_two_file("/home/u335775/Pulpit/Łukasz Kolczyński/pw-spi/python/data_file", "data_1.dat", "data_2.dat", "data_1_2.dat") # laczy pliki ale juz nie trzeba tego uzywac
-    merge_all_files("/home/u335775/Pulpit/Łukasz Kolczyński/pw-spi/python/data_file") # generuje posortowany plik z wcześniej utworzonych(podzielonych i posortowanych) i usuwa pozostałe podzielone
-
+    generate_data("data.dat", 10, 20) #generuje plik z x(miejsce po nazwie) randomowymi liczbami w zakresie y (ostatnie miejsce w () )
     end = timer()
-    print(f"Time: {end - begin} s")
+    print(f"Generate time: {end - begin} s")
+    begin = timer()
+    divide_file("data.dat", 4 , "/home/u335775/Pulpit/Łukasz Kolczyński/pw-spi/python/data_file")   #dzieli wygenerowany plik na mniejsze pliki po z (cyfra przed ścieżką) liczb w każdym
+    end = timer()
+    print(f"Divide time: {end - begin} s")
+    begin = timer()
+    sort_data_in_directory("/home/u335775/Pulpit/Łukasz Kolczyński/pw-spi/python/data_file")  #sortuje liczby rosnąco w każdym pliku
+    end = timer()
+    print(f"Sort time: {end - begin} s")
+    ##begin = timer()
+    ##merge_two_file("/home/u335775/Pulpit/Łukasz Kolczyński/pw-spi/python/data_file", "data_1.dat", "data_2.dat", "data_1_2.dat") # laczy pliki ale juz nie trzeba tego uzywac
+    ##end = timer()
+    ##print(f"Merge time: {end - begin} s")
+    begin = timer()
+    merge_all_files("/home/u335775/Pulpit/Łukasz Kolczyński/pw-spi/python/data_file") # generuje posortowany plik z wcześniej utworzonych(podzielonych i posortowanych) i usuwa pozostałe podzielone
+    end = timer()
+    print(f"Merge and delete time: {end - begin} s")
+
 
 if __name__ == "__main__":
     main()
