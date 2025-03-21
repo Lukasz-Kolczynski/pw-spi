@@ -219,23 +219,28 @@ class TextLinesInDB(TextLines):
 
         connection.commit()
         connection.close()
+        self.__connection = None
+        self.__cur = None
+
+
     def get_number_of_lines(self):
         sql = "SELECT COUNT(*) AS count FROM lines"
-        connection = sqlite3.connect(self.__db_name)
+
+
+        connection = self.__get_connection()
         connection.row_factory = sqlite3.Row
         cur = connection.cursor()
-
         res = cur.execute(sql)
         row = res.fetchone()
         row = dict(row)
 
-        connection.close()
+        #connection.close()
         return row['count']
 
     def read_line(self, line_number):
         if line_number <= self.get_number_of_lines():
             sql = "SELECT * FROM lines WHERE id=?"
-
+            con = self.__get_connection()
             con = sqlite3.connect(self.__db_name)
             con.row_factory = sqlite3.Row
             cur = con.cursor()
@@ -243,24 +248,29 @@ class TextLinesInDB(TextLines):
             row = res.fetchone()
             row = dict(row)
             print(row)
-            con.close()
+            #con.close()
             return row["line"]
     def delete_line(self, line_number):
         if line_number >= 0 and line_number < self.get_number_of_lines():
-            self.__lines[line_number] = None
+            self.__write_line_at_index("", line_number)
         else:
             raise IndexError("Line number out of range")
     #BEGIN: Private methods
+
+    def __get_connection(self):
+        if self.__connection is None:
+            self.__connection = sqlite3.connect(self.__db_name)
+        return self.__connection
     def __write_line_at_end(self, text):
         if type(text) is not str:
             raise TypeError("Text must be a string type")
 
         sql = "INSERT INTO lines (line) VALUES (?)"
-        connection = sqlite3.connect((self.__db_name))
+        connection = self.__get_connection()
         cur = connection.cursor()
         res = cur.execute(sql, (text, ))
         connection.commit()
-        connection.close()
+        #connection.close()
 
 
     def __write_line_at_index(self, text, line_number):
@@ -279,11 +289,11 @@ class TextLinesInDB(TextLines):
         elif line_number >= 0 and line_number < self.get_number_of_lines():
             sql = "UPDATE lines SET line=(?), mod=date('now') WHERE id=(?)"
 
-            con = sqlite3.connect(self.__db_name)
+            con = self.__get_connection()
             cur = con.cursor()
             res = cur.execute(sql, (text, line_number))
             con.commit()
-            con.close()
+            #con.close()
 
     def write_Line(self, text, line_number=None):
         if line_number == None:
@@ -292,7 +302,17 @@ class TextLinesInDB(TextLines):
             self.__write_line_at_index(text, line_number)
         pass
     def dump(self):
-        return self.__lines
+        sql = "SELECT * FROM lines"
+        con = self.__get_connection()
+        cur = con.cursor()
+        res = cur.execute(sql)
+        row = res.fetchall()
+
+        return row
+        #con.close()
+    def closeDB(self):
+        self.__connection.close()
+        self.__connection = None
 
 
 class IdentifiedTextLines:
@@ -355,10 +375,15 @@ def test_IdentifiedTexLinesinDB():
     tlidb.write_Line("fdsfs")
     print(tlidb.get_number_of_lines())
     print(tlidb.read_line(1))
+    tlidb.closeDB()
     tlidb.write_Line("ddd", 2)
     print(tlidb.read_line(2))
+    tlidb.write_Line("dadadadad")
+    tlidb.read_line(3)
+    print(tlidb.dump())
 
 def main():
     test_IdentifiedTexLinesinDB()
 if __name__ == "__main__":
     main()
+
