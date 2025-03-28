@@ -192,27 +192,23 @@ def merge_all_files(working_directory):
 def Counter_files(file_path_1, file_path_2):
     def count_occurrences(file_path):
         with open(file_path, "r") as file:
-            numbers = []
+
             occurrences = {}
             for line in file:
                 num = int(line.strip())
-                numbers.append(num)
-                if num in occurrences:
-                    occurrences[num] += 1
-                else:
-                    occurrences[num] = 1
+                occurrences[num] = occurrences.get(num, 0) + 1
             return occurrences
     
     count_1 = count_occurrences(file_path_1)
     count_2 = count_occurrences(file_path_2)
     
-    print("Liczba wystąpień w pliku pierwotnym:")
-    for number, count in count_1.items():
-        print(f"{number}: {count}")
+    print("Liczba wystąpień w pliku wygenerowanym:")
+    for number in sorted(count_1.keys()):
+        print(f"{number}: {count_1[number]}")
     
-    print("\nLiczba wystąpień w pliku wynikowym:")
-    for number, count in count_2.items():
-        print(f"{number}: {count}")
+    print("\nLiczba wystąpień w pliku posortowanym:")
+    for number in sorted(count_2.keys()):
+        print(f"{number}: {count_2[number]}")
     
     if count_1 == count_2:
         print("\nWszystkie liczby występują tyle samo razy.")
