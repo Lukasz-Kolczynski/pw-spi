@@ -212,30 +212,24 @@ def merge_all_files(working_directory):
         number_of_files = len(files)
         iteration += 1
 
-def Counter_files(file_path_1, file_path_2):
-    def count_occurrences(file_path):
-        with open(file_path, "r") as file:
-            occurrences = {}
-            for line in file:
-                num = int(line.strip())
-                occurrences[num] = occurrences.get(num, 0) + 1
-            return occurrences
+# def Counter_files(file_path_1, file_path_2):
+
     
-    count_1 = count_occurrences(file_path_1)
-    count_2 = count_occurrences(file_path_2)
+#     count_1 = count_occurrences(file_path_1)
+#     count_2 = count_occurrences(file_path_2)
     
-    print("Liczba wystąpień w pliku wygenerowanym:")
-    for number in sorted(count_1.keys()):
-        print(f"{number}: {count_1[number]}")
+#     print("Liczba wystąpień w pliku wygenerowanym:")
+#     for number in sorted(count_1.keys()):
+#         print(f"{number}: {count_1[number]}")
     
-    print("\nLiczba wystąpień w pliku posortowanym:")
-    for number in sorted(count_2.keys()):
-        print(f"{number}: {count_2[number]}")
+#     print("\nLiczba wystąpień w pliku posortowanym:")
+#     for number in sorted(count_2.keys()):
+#         print(f"{number}: {count_2[number]}")
     
-    if count_1 == count_2:
-        print("\nWszystkie liczby występują tyle samo razy.")
-    else:
-        print("\nLiczby nie zgadzają się!")
+#     if count_1 == count_2:
+#         print("\nWszystkie liczby występują tyle samo razy.")
+#     else:
+#         print("\nLiczby nie zgadzają się!")
 
 def sort_check(file_path):
     with open(file_path, "r") as file:
@@ -253,9 +247,19 @@ def sort_check(file_path):
         print("Plik wynikowy jest poprawnie posortowany.")
     else:
         print("Plik wynikowy nie jest posortowany!")
-    
 
 
+def count_occurrences(file_path):
+
+    counter = 1
+    with open(file_path, "r") as file:
+        occurrences = {}
+        for line in file:   
+            if line not in occurrences.keys():
+                occurrences[line]=counter
+            else:
+                occurrences[line] += counter
+        return print(occurrences)
 
 def main():
     # begin = timer()
@@ -286,7 +290,7 @@ def main():
 
     #Counter_files("/home/u335775/Pulpit/Łukasz Kolczyński/pw-spi/python/data_file/2_1.dat", "/home/u335775/Pulpit/Łukasz Kolczyński/pw-spi/data.dat") # sprawdza czy plik ktory generuje liczby ma tyle samo liczb(takich samych) co plik posortowany
     #sort_check("/home/u335775/Pulpit/Łukasz Kolczyński/pw-spi/python/data_file/2_1.dat") # sprawdza czy plik posortowany w data_file jest naprawde posortowany
-
+    count_occurrences("/home/u335775/Pulpit/Łukasz Kolczyński/pw-spi/python/data_file/2_1.dat")
 
 if __name__ == "__main__":
     main()
