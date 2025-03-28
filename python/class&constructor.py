@@ -108,17 +108,62 @@
 
 #===============================================================
 
-class BaseClass:
-    def __new__(cls):
-        obj = super().__new__(cls)
-        obj._from_base_class = type(obj) == BaseClass
-        return obj
+# class BaseClass:
+#     def __new__(cls):
+#         obj = super().__new__(cls)
+#         obj._from_base_class = type(obj) == BaseClass
+#         return obj
     
-class SubClass(BaseClass):
-    pass
+# class SubClass(BaseClass):
+#     pass
 
-base_instance = BaseClass()
-sub_instance = SubClass()
+# base_instance = BaseClass()
+# sub_instance = SubClass()
 
-print(base_instance._from_base_class)
-print(sub_instance._from_base_class)
+# print(base_instance._from_base_class)
+# print(sub_instance._from_base_class)
+
+#===============================================================
+
+# class Person:
+#     def __init__(self, name):
+#         self.name = name 
+
+# class Employee(Person):
+#     def __init__(self, name, id):
+#         super().__init__("Best " + name)
+#         self.name_ = ">"+name+"<" 
+#         self.id = id
+
+# e = Employee("John", "007")
+
+# print(e.name_)
+# print(e.name)
+# print(e.id)
+
+#===============================================================
+
+def something():
+    ff = Foo("Krzysio")
+
+class Foo:
+    def __init__(self, name):
+        self.name = name 
+        print(f"Foo ({self.name}): __init__")
+    
+    def __del__(self):
+        print(f"Foo: ({self.name}):__del__")
+
+f = Foo("Aston")
+g = Foo("Lukas")
+
+del f
+
+x = input("Wpisz coś")
+
+something()
+
+y = []
+
+print(y[0])
+print("jestem tutaj")
