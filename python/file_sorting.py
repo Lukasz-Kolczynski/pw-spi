@@ -111,6 +111,10 @@ def get_all_files_in_directory(working_directory):
         if not os.path.isdir(file_path):
             files.append(file)
     return files
+
+def get_first(el):
+    return int(el.split(',')[0])
+
 def sort_data_in_directory(working_directory):
     files = get_all_files_in_directory(working_directory)
     c = 1
@@ -120,8 +124,8 @@ def sort_data_in_directory(working_directory):
         file_path = os.path.join(working_directory, file)
         data = None
         with open(file_path, "r") as source_file:
-            data = [int(line.strip()) for line in source_file]
-        data.sort()
+            data = [(line.strip()) for line in source_file]
+        data.sort(key = get_first)
 
         with open(file_path, "w") as result_file:
             for i in range(len(data)-1):
@@ -146,14 +150,14 @@ def merge_two_file(working_directory, file_in_1_name, file_in_2_name, file_out_n
 
                 while True:
                     if line_1 and line_2:
-                        v1 = int(line_1)
-                        v2 = int(line_2)
+                        v1 = (int(line_1.split(',')[0]))
+                        v2 = (int(line_2.split(',')[0]))
 
                         if v1 < v2:
-                            file_out.write(str(v1))
+                            file_out.write(str(line_1))
                             line_1 = file_in_1.readline().strip()
                         else:
-                            file_out.write(str(v2))
+                            file_out.write(str(line_2))
                             line_2 = file_in_2.readline().strip()
                     elif line_1 and not line_2:
                         file_out.write(line_1)
@@ -254,26 +258,31 @@ def sort_check(file_path):
 
 
 def main():
-    begin = timer()
-    generate_data("data.dat", 10, 20) #generuje plik z x(miejsce po nazwie) randomowymi liczbami w zakresie y (ostatnie miejsce w () )
-    end = timer()
-    print(f"Generate time: {end - begin} s")
+    # begin = timer()
+    # generate_data("data.dat", 10, 20) #generuje plik z x(miejsce po nazwie) randomowymi liczbami w zakresie y (ostatnie miejsce w () )
+    # end = timer()
+    # print(f"Generate time: {end - begin} s")
+
     # begin = timer()
     # divide_file("data.dat", 4 , "/home/u335775/Pulpit/Łukasz Kolczyński/pw-spi/python/data_file")   #dzieli wygenerowany plik na mniejsze pliki po z (cyfra przed ścieżką) liczb w każdym
     # end = timer()
     # print(f"Divide time: {end - begin} s")
+
     # begin = timer()
     # sort_data_in_directory("/home/u335775/Pulpit/Łukasz Kolczyński/pw-spi/python/data_file")  #sortuje liczby rosnąco w każdym pliku
     # end = timer()
     # print(f"Sort time: {end - begin} s")
+
     # ##begin = timer()
     # ##merge_two_file("/home/u335775/Pulpit/Łukasz Kolczyński/pw-spi/python/data_file", "data_1.dat", "data_2.dat", "data_1_2.dat") # laczy pliki ale juz nie trzeba tego uzywac
     # ##end = timer()
     # ##print(f"Merge time: {end - begin} s")
+
     # begin = timer()
     # merge_all_files("/home/u335775/Pulpit/Łukasz Kolczyński/pw-spi/python/data_file") # generuje posortowany plik z wcześniej utworzonych(podzielonych i posortowanych) i usuwa pozostałe podzielone
     # end = timer()
     # print(f"Merge and delete time: {end - begin} s")
+
 
     #Counter_files("/home/u335775/Pulpit/Łukasz Kolczyński/pw-spi/python/data_file/2_1.dat", "/home/u335775/Pulpit/Łukasz Kolczyński/pw-spi/data.dat") # sprawdza czy plik ktory generuje liczby ma tyle samo liczb(takich samych) co plik posortowany
     #sort_check("/home/u335775/Pulpit/Łukasz Kolczyński/pw-spi/python/data_file/2_1.dat") # sprawdza czy plik posortowany w data_file jest naprawde posortowany
