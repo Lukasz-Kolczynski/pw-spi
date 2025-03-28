@@ -42,16 +42,35 @@ import os
 import random
 from timeit import default_timer as timer
 
+#poniższe generowanie jest to 1 części zadania, tzn generuje plik z samymi liczbami
+#  (jedna liczba w jednym wierszu)
+# 4
+# 10
+# ...
+
+
+# def generate_data(file_path, size, max_value):
+#     with open(file_path, "w") as file_out:
+#         for i in range(size-1):
+#             number = random.randint(0, max_value)
+#             file_out.write(str(number) + "\n")
+#         number = random.randint(0, max_value)
+#         file_out.write(str(number))
+
+
+#poniższe generowanie jest to 2 części zadania, tzn generuje plik z w postaci (liczba, zliczbaliczba)
+#  (jedna liczba w jednym wierszu)
+# 4,z44
+# 10,z1010
+# ...
 
 def generate_data(file_path, size, max_value):
     with open(file_path, "w") as file_out:
-        for i in range(size-1):
+        for i in range(size - 1):
             number = random.randint(0, max_value)
-            file_out.write(str(number) + "\n")
-            if i % 100_00 == 0:
-                print(f"{i} of {size}")
+            file_out.write(str(number) + "," + "z" + str(number) + str(number) +  "\n") 
         number = random.randint(0, max_value)
-        file_out.write(str(number))
+        file_out.write(str(number) + "," + "z" + str(number) + str(number))
 
 
 def divide_file(file_path, size, working_directory):
@@ -192,7 +211,6 @@ def merge_all_files(working_directory):
 def Counter_files(file_path_1, file_path_2):
     def count_occurrences(file_path):
         with open(file_path, "r") as file:
-
             occurrences = {}
             for line in file:
                 num = int(line.strip())
@@ -234,11 +252,12 @@ def sort_check(file_path):
     
 
 
+
 def main():
-    # begin = timer()
-    # generate_data("data.dat", 10, 20) #generuje plik z x(miejsce po nazwie) randomowymi liczbami w zakresie y (ostatnie miejsce w () )
-    # end = timer()
-    # print(f"Generate time: {end - begin} s")
+    begin = timer()
+    generate_data("data.dat", 10, 20) #generuje plik z x(miejsce po nazwie) randomowymi liczbami w zakresie y (ostatnie miejsce w () )
+    end = timer()
+    print(f"Generate time: {end - begin} s")
     # begin = timer()
     # divide_file("data.dat", 4 , "/home/u335775/Pulpit/Łukasz Kolczyński/pw-spi/python/data_file")   #dzieli wygenerowany plik na mniejsze pliki po z (cyfra przed ścieżką) liczb w każdym
     # end = timer()
@@ -256,8 +275,8 @@ def main():
     # end = timer()
     # print(f"Merge and delete time: {end - begin} s")
 
-    Counter_files("/home/u335775/Pulpit/Łukasz Kolczyński/pw-spi/python/data_file/2_1.dat", "/home/u335775/Pulpit/Łukasz Kolczyński/pw-spi/data.dat") # sprawdza czy plik ktory generuje liczby ma tyle samo liczb(takich samych) co plik posortowany
-    sort_check("/home/u335775/Pulpit/Łukasz Kolczyński/pw-spi/python/data_file/2_1.dat") # sprawdza czy plik posortowany w data_file jest naprawde posortowany
+    #Counter_files("/home/u335775/Pulpit/Łukasz Kolczyński/pw-spi/python/data_file/2_1.dat", "/home/u335775/Pulpit/Łukasz Kolczyński/pw-spi/data.dat") # sprawdza czy plik ktory generuje liczby ma tyle samo liczb(takich samych) co plik posortowany
+    #sort_check("/home/u335775/Pulpit/Łukasz Kolczyński/pw-spi/python/data_file/2_1.dat") # sprawdza czy plik posortowany w data_file jest naprawde posortowany
 
 
 if __name__ == "__main__":
