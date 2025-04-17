@@ -47,28 +47,7 @@ def load_photo(file_name: str, width: int = 0, height: int = 0):
         photo = photo.resize((width, height))
     return photo
 
-def decrease_pixels(step_block: int, file_name: str, width: int = 0, height: int = 0):
-    photo = load_photo(file_name, width, height)
 
-    pixels = photo.load()
-    for i in range(int(width / step_block)):
-        for j in range(int(height / step_block)):
-            r, g, b = (0,0,0)
-            for x in range(int(step_block)):
-                for y in range(int(step_block)):
-                    rPx, gPx, bPx = pixels[i*step_block + x, j*step_block + y]
-                    r += rPx
-                    g += gPx
-                    b += bPx
-
-            r = int(r/(step_block*step_block))
-            g = int(g/(step_block*step_block))
-            b = int(b/(step_block*step_block))
-
-            for x in range(step_block):
-                for y in range(step_block):
-                    pixels[i*step_block + x, j*step_block + y] = (r, g, b)
-    return photo
 
 def save_photo(file_name, photo):
     photo.save(file_name)
