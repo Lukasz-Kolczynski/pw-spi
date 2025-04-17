@@ -192,8 +192,8 @@ from PIL import Image
 from multiprocessing import Pool, cpu_count
 
 base_dir = "/home/u335775/Pulpit/Łukasz Kolczyński/pw-spi/python/convert_photos"
-source_image_path = os.path.join(base_dir, "tralalala.jpg") 
-tiles_dir = os.path.join(base_dir, "sea")
+source_image_path = os.path.join(base_dir, "big.jpg") 
+tiles_dir = os.path.join(base_dir, "zdjecia")
 output_path = os.path.join(base_dir, "result", "result.jpg")
 
 
@@ -212,14 +212,18 @@ def average_color(image):
 
 
 def load_tile_images(tile_dir, tile_size):
-    tile_files = [os.path.join(tile_dir, f) for f in os.listdir(tile_dir) if f.lower().endswith((".jpg", ".png"))]
     tiles = []
-    for file in tile_files:
-        try:
-            img = Image.open(file).resize((tile_size, tile_size)).convert("RGB")
-            tiles.append((average_color(img), img))
-        except:
-            continue
+    # Używamy os.walk, by przejść przez wszystkie podfoldery
+    for root, _, files in os.walk(tile_dir):
+        for file in files:
+            if file.lower().endswith((".jpg", ".png")):
+                file_path = os.path.join(root, file)
+                try:
+                    img = Image.open(file_path).resize((tile_size, tile_size)).convert("RGB")
+                    tiles.append((average_color(img), img))
+                except Exception as e:
+                    print(f"Błąd podczas ładowania obrazu {file_path}: {e}")
+                    continue
     return tiles
 
 
