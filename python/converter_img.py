@@ -90,9 +90,11 @@ def fill_og_with_small(file_name_og: str,file_out: str,step_block: int, width: i
                 for y in range(step_block):
                     rPpx, gPpx, bPpx = pixels[i*step_block+x, j*step_block+y]
                     r += rPpx
-                    g +=gPpx
+                    g += gPpx
                     b += bPpx
-            rgb_part = (int(r/(step_block*step_block)), int(g/(step_block*step_block)), int(b/(step_block*step_block)))
+            rgb_part = (int(r/(step_block*step_block)),
+                        int(g/(step_block*step_block)),
+                        int(b/(step_block*step_block)))
 
             photo_part = Image.new('RGB', (step_block, step_block), rgb_part)
             photo_blended = Image.blend(photo_part, photo_small, alpha=0.5)
