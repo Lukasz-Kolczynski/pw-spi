@@ -1,30 +1,30 @@
 import multiprocessing
 import time
-from multiprocessing import Queue
+from multiprocessing import Pipe
 
-def jobConsumer (queue):
+def jobConsumer (pipe):
     while True:
-        msg = queue.get()
+        msg = pipe.recv()
         if msg == 'DONE':
             break
         print("Consumer done")
 
-def jobProducer(queue, number):
+def jobProducer(pipe, number):
     for i in range(number):
-        queue.put(1024 * " ")
-    queue.put('DONE')
+        pipe.send(1024 * " ")
+    pipe.send('DONE')
     print("Producer done")
 
 def test():
     for number in [10**4, 10**5, 10**6]:
-        queue = Queue()
+        pipeParent, pipeChild = Pipe()
 
-        consumer = multiprocessing.Process(target=jobConsumer, args=(queue,))
+        consumer = multiprocessing.Process(target=jobConsumer, args=(pipeChild,))
         consumer.start()
 
         begin = time.time()
 
-        jobProducer(queue, number)
+        jobProducer(pipeParent, number)
         consumer.join()
 
         end = time.time()
