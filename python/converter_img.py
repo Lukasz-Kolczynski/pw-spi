@@ -192,7 +192,7 @@ from PIL import Image
 from multiprocessing import Pool, cpu_count
 
 base_dir = "/home/u335775/Pulpit/Łukasz Kolczyński/pw-spi/python/convert_photos"
-source_image_path = os.path.join(base_dir, "ddd.jpg") 
+source_image_path = os.path.join(base_dir, "bulbul.jpg") 
 tiles_dir = os.path.join(base_dir, "zdjecia")
 output_path = os.path.join(base_dir, "result", "result.jpg")
 
