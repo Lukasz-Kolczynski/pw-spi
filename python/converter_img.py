@@ -192,7 +192,7 @@ from PIL import Image
 from multiprocessing import Pool, cpu_count
 
 base_dir = "/home/u335775/Pulpit/Łukasz Kolczyński/pw-spi/python/convert_photos"
-source_image_path = os.path.join(base_dir, "big.jpg") 
+source_image_path = os.path.join(base_dir, "ddd.jpg") 
 tiles_dir = os.path.join(base_dir, "zdjecia")
 output_path = os.path.join(base_dir, "result", "result.jpg")
 
@@ -213,7 +213,6 @@ def average_color(image):
 
 def load_tile_images(tile_dir, tile_size):
     tiles = []
-    # Używamy os.walk, by przejść przez wszystkie podfoldery
     for root, _, files in os.walk(tile_dir):
         for file in files:
             if file.lower().endswith((".jpg", ".png")):
