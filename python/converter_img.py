@@ -196,10 +196,11 @@ source_image_path = os.path.join(base_dir, "bulbul.jpg")
 tiles_dir = os.path.join(base_dir, "zdjecia")
 output_path = os.path.join(base_dir, "result", "result.jpg")
 
-
+# image = Image.open(source_image_path)
+# output_width , output_hegiht = image.size
 tile_size = 20 
-output_width = 4000
-output_height = 2900
+output_width = 3000
+output_height = 1500
 
 
 def average_color(image):
@@ -212,31 +213,35 @@ def average_color(image):
 
 
 def load_tile_images(tile_dir, tile_size):
-    tiles = []
-    for root, _, files in os.walk(tile_dir):
+    tiles = [] #pusta lista do przechowywania miniatur z ich srednim kolorem
+    for root,_, files in os.walk(tile_dir): #mozna by uzyc listdir ale walk idzie po podfolderach, _ ignoruje nazwy folderow
         for file in files:
             if file.lower().endswith((".jpg", ".png")):
                 file_path = os.path.join(root, file)
                 try:
                     img = Image.open(file_path).resize((tile_size, tile_size)).convert("RGB")
-                    tiles.append((average_color(img), img))
+                    tiles.append((average_color(img), img)) #sredni kolor miniatury, ta miniatura
                 except Exception as e:
                     print(f"Błąd podczas ładowania obrazu {file_path}: {e}")
                     continue
     return tiles
 
 
+
 def closest_tile_color(avg_color, tiles):
     def distance(c1, c2):
         return sum((a - b) ** 2 for a, b in zip(c1, c2))
-    return min(tiles, key=lambda tile: distance(avg_color, tile[0]))[1]
+    def helpFunc(tile):
+        return distance(avg_color, tile[0])
+    return min(tiles, key=helpFunc)[1] #zwraca najbardziej zblizony obrazek
+
 
 
 def process_tile(args):
     x, y, block, tile_size, tiles = args
     avg_color = average_color(block)
-    best_tile = closest_tile_color(avg_color, tiles)
-    return x, y, best_tile
+    best_tile = closest_tile_color(avg_color, tiles) #szuka najbardziej zblizonego kafelka do sredniego rgb bloku z obrazu
+    return x, y, best_tile #gdzie ma umiescic znaleziony kafelek
 
 
 def create_mosaic(source_image_path, output_path, tile_size, out_width, out_height, tiles_dir):
@@ -255,11 +260,11 @@ def create_mosaic(source_image_path, output_path, tile_size, out_width, out_heig
     for i in range(0, out_width, tile_size):
         for j in range(0, out_height, tile_size):
             block = source.crop((i, j, i + tile_size, j + tile_size))
-            args_list.append((i, j, block, tile_size, tiles))
+            args_list.append((i, j, block, tile_size, tiles)) #wspolrzedne i dane dla kazdego procesu potrzebne do znalezienia najlepszego kafelka
 
 
     with Pool(cpu_count()) as pool:
-        results = pool.map(process_tile, args_list)
+        results = pool.map(process_tile, args_list) #lista gdzie wkleic dany kafelek(multiprocessing)
 
 
     for x, y, tile in results:
