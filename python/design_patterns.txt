@@ -1,0 +1,7 @@
+Program przedstawia prostą symulację systemu kina domowego z wykorzystaniem dwóch wzorców projektowych: Singleton i Fasada.
+
+Wzorzec Singleton został użyty w klasie HomeTheaterSystem, aby zapewnić, że w programie istnieje tylko jedna instancja systemu kina domowego.
+Dzięki temu mamy pewność, że wszystko jest sterowane z jednego miejsca.
+Wzorzec Fasady został użyty poprzez metody watch_movie() i stop_movie(), które upraszczają działanie całego systemu.
+Zamiast osobno uruchamiać telewizor, odtwarzacz, głośniki i światło, wystarczy wywołać jedną metodę, która robi to wszystko za nas.
+Program uruchamia urządzenia przy rozpoczęciu seansu i wyłącza je na koniec.
